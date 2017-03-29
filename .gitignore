@@ -38,3 +38,8 @@ Thumbs.db
 *.log
 
 tmp/
+demo-core/src/main/java/com/demo/demo/core/config/
+demo-core/src/main/java/com/demo/demo/core/utils/
+demo-core/src/main/resources/
+demo-web/src/main/resources/static/
+
