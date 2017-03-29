@@ -3,9 +3,7 @@ package com.demo.demo.core.daily.service;
 import com.demo.demo.core.entity.DailyReport;
 import com.demo.demo.core.repository.DailyReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,4 +25,28 @@ public class DailyService {
         Page<DailyReport> page = repository.findAll(pageable);
         return page;
     }
+    //测试Example查询
+    public List<DailyReport> findByExample(){
+        DailyReport dailyReport = new DailyReport();
+        //dailyReport.setAgentId(22);
+        //dailyReport.setAreaId(3);
+        ExampleMatcher matcher = ExampleMatcher.matching().withIncludeNullValues();
+        Example<DailyReport> example = Example.of(dailyReport);
+        List<DailyReport> reports = repository.findAll(example);
+        return reports;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
