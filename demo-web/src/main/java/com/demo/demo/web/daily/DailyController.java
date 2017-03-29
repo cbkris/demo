@@ -3,6 +3,7 @@ package com.demo.demo.web.daily;
 import com.demo.demo.core.daily.service.DailyService;
 import com.demo.demo.core.entity.DailyReport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,12 @@ public class DailyController {
     DailyService dailyService;
 
     @RequestMapping("/find")
-    public DailyReport find(@RequestParam("id") Integer id){
-        return dailyService.findOne(id);
+    public DailyReport find(@RequestParam("id") DailyReport dailyReport){
+        return dailyReport;
+    }
+
+    @RequestMapping("/findAll")
+    public Page<DailyReport> findAll(){
+        return dailyService.findAll();
     }
 }

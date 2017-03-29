@@ -1,5 +1,6 @@
 package com.demo.demo.core.repository;
 
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
@@ -10,6 +11,6 @@ import java.io.Serializable;
  * 中间接口,不希望创建Bean
  */
 @NoRepositoryBean
-public interface DemoRepository<T,ID extends Serializable> extends Repository<T, ID> {
+public interface DemoRepository<T,ID extends Serializable> extends Repository<T, ID> ,QueryDslPredicateExecutor{
 
 }
