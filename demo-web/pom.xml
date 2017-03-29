@@ -53,6 +53,7 @@
                 <!--配置启动类的位置-->
                 <configuration>
                     <mainClass>com.demo.demo.DemoApplication</mainClass>
+
                 </configuration>
             </plugin>
         </plugins>

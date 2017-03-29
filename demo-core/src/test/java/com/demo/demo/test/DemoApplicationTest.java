@@ -1,4 +1,4 @@
-package com.demo.demo.web;
+package com.demo.demo.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,16 +9,16 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Created by cb on 2017/3/23.
- * 启动类
+ * Created by cb on 2017/3/29.
  */
 @EnableTransactionManagement(mode = AdviceMode.PROXY)
 @EnableJpaRepositories(basePackages = "com.demo.demo.core.repository",
         queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 @EntityScan(basePackages = "com.demo.demo.core.entity")
-@SpringBootApplication(scanBasePackages = "com.demo.demo")
-public class DemoApplication {
+@SpringBootApplication(scanBasePackages = "com.demo")
+public class DemoApplicationTest {
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(DemoApplicationTest.class, args);
     }
 }
+

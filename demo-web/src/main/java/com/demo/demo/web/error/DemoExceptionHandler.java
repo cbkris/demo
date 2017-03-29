@@ -19,6 +19,9 @@ public class DemoExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseBody
     public Object handlerException(HttpServletRequest request, Throwable throwable) {
+        /**
+         * 如果是自定义异常,那么返回自定义的错误码
+         */
         if (throwable instanceof DemoException) {
             DemoException exception = (DemoException) throwable;
             return new DemoResponse(exception.getCode(), exception.getMessage());

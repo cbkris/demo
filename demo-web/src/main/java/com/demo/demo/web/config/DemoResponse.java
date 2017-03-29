@@ -14,8 +14,7 @@ public class DemoResponse {
 
     private Object data;
 
-    public DemoResponse() {
-    }
+    public DemoResponse() {}
 
     public DemoResponse(int code, String message) {
         this.code = code;
