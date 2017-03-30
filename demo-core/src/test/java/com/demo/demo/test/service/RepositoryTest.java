@@ -19,4 +19,8 @@ public class RepositoryTest extends BaseTest{
     public void test1(){
         System.out.println(service.findOne(1));
     }
+    @Test
+    public void test2(){
+        System.out.println(service.findByExample());
+    }
 }
