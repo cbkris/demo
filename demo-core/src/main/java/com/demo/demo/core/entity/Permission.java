@@ -1,23 +1,36 @@
 package com.demo.demo.core.entity;
 
-import lombok.Data;
+import lombok.*;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
 
 /**
- * Created by cb on 2017/3/29.
+ * Created by cb on 2017/3/30.
  */
-@Table(name = "permission")
 @Data
+@Entity
 public class Permission {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "permission_id",updatable = false,nullable = false)
+    @Column(name = "permission_id", nullable = false)
     private Integer permissionId;
+    @Basic
+    @Column(name = "permission_name", nullable = false, length = 64)
     private String permissionName;
+    @Basic
+    @Column(name = "permission_type", nullable = false)
     private Byte permissionType;
+    @Basic
+    @Column(name = "permission_state", nullable = false)
     private Byte permissionState;
+    @Basic
+    @Column(name = "description", nullable = false, length = 256)
     private String description;
-    private Date createTime;
+    @Basic
+    @Column(name = "create_time", nullable = false)
+    private Timestamp createTime;
+
 }

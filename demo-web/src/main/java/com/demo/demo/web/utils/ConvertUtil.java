@@ -1,6 +1,6 @@
 package com.demo.demo.web.utils;
 
-import com.demo.demo.core.entity.UserToMail;
+import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.web.login.vo.UserRegisterVO;
 
 /**
@@ -13,8 +13,8 @@ public class ConvertUtil {
      * @param vo
      * @return
      */
-    public static UserToMail registerVO_UserToMail(UserRegisterVO vo){
-        UserToMail userToMail = new UserToMail();
+    public static UserMail registerVO_UserToMail(UserRegisterVO vo){
+        UserMail userToMail = new UserMail();
         userToMail.setMail(vo.getEmail());
         userToMail.setPwd(vo.getPwd());
         return userToMail;
