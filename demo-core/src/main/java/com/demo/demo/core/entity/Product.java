@@ -15,16 +15,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id",updatable = false,nullable = false)
     private Integer productId;
-    @Column(name = "product_name")
     private String productName;
-    @Column(name = "product_type")
     private Byte productType;
-    @Column(name = "product_state")
     private Byte productState;
-    @Column(name = "description")
     private String description;
-    @Column(name = "begin_time")
     private Date beginTime;
-    @Column(name = "create_time")
     private Date createTime;
 }

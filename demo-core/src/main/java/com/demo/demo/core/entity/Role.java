@@ -15,14 +15,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id",updatable = false,nullable = false)
     private Integer roleId;
-    @Column(name = "role_name")
     private String roleName;
-    @Column(name = "role_type")
     private Byte roleType;
-    @Column(name = "role_state")
     private Byte roleState;
-    @Column(name = "description")
     private String description;
-    @Column(name = "create_time")
     private Date createTime;
 }

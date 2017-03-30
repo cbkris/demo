@@ -15,12 +15,8 @@ public class UserToProduct {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "user_id")
     private Integer userId;
-    @Column(name = "product_id")
     private Integer productId;
-    @Column(name = "state")
     private Byte state;
-    @Column(name = "create_time")
     private Date createTime;
 }

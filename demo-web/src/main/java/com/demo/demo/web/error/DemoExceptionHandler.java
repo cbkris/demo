@@ -3,6 +3,8 @@ package com.demo.demo.web.error;
 import com.demo.demo.core.exception.DemoException;
 import com.demo.demo.core.exception.ErrorEnum;
 import com.demo.demo.web.config.DemoResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,9 +18,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ControllerAdvice
 public class DemoExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(DemoExceptionHandler.class);
+
     @ExceptionHandler(Throwable.class)
     @ResponseBody
     public Object handlerException(HttpServletRequest request, Throwable throwable) {
+        logger.debug("请求异常路径{}",request.getRequestURL());
         /**
          * 如果是自定义异常,那么返回自定义的错误码
          */

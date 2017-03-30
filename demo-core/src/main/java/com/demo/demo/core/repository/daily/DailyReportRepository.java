@@ -1,6 +1,7 @@
 package com.demo.demo.core.repository.daily;
 
 import com.demo.demo.core.entity.DailyReport;
+import com.demo.demo.core.repository.BaseRepository;
 import com.demo.demo.core.repository.OnlyCustomer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by cb on 2017/3/28.
  */
 @Repository
-public interface DailyReportRepository extends JpaRepository<DailyReport, Integer> ,QueryByExampleExecutor<DailyReport>{
+public interface DailyReportRepository extends BaseRepository<DailyReport,Integer>{
     //默认使用JPQL
     @Query(value = "select daily from DailyReport daily where daily.agentId=?1")
     List<DailyReport> findAllByAgentId(Integer id);

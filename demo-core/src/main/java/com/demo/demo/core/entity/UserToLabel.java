@@ -15,12 +15,8 @@ public class UserToLabel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id",updatable = false,nullable = false)
     private Integer id;
-    @Column(name = "user_id")
     private Integer userId;
-    @Column(name = "label_id")
     private Integer labelId;
-    @Column(name = "state")
     private Byte state;
-    @Column(name = "create_time")
     private Date createTime;
 }

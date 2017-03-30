@@ -15,23 +15,14 @@ public class UserToPhone {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id",updatable = false,nullable = false)
     private Integer id;
-    @Column(name = "user_id")
     private Integer userId;
-    @Column(name = "phone")
     private String phone;
-    @Column(name = "pwd")
     private String pwd;
-    @Column(name = "phone_type")
     private Byte phoneType;
-    @Column(name = "salt")
     private String salt;
-    @Column(name = "token")
     private String token;
-    @Column(name = "token_state")
     private Byte tokenState;
-    @Column(name = "token_gen_time")
     private Date tokenGenTime;
-    @Column(name = "create_time")
     private Date createTime;
 }
 
