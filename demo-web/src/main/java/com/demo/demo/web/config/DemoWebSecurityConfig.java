@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * Created by cb on 2017/3/29.
+ * Spring Security配置类
  */
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -26,6 +27,7 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
         //关掉csrf防御
         http.csrf().disable();
         http.authorizeRequests()
+                .anyRequest().permitAll()//暂时允许所有request
                 .antMatchers("/css/**", "/index").permitAll()
                 .antMatchers("/user/**").hasRole("ADMIN")
                 .and()

@@ -1,4 +1,4 @@
-package com.demo.demo.core.repository;
+package com.demo.demo.core.repository.daily;
 
 import com.demo.demo.core.entity.DailyReport;
 import org.springframework.data.jpa.repository.JpaRepository;

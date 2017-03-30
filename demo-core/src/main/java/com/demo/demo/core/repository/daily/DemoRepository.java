@@ -1,4 +1,4 @@
-package com.demo.demo.core.repository;
+package com.demo.demo.core.repository.daily;
 
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;

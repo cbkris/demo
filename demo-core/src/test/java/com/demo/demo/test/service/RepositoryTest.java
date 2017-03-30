@@ -1,7 +1,7 @@
 package com.demo.demo.test.service;
 
 import com.demo.demo.core.daily.service.DailyService;
-import com.demo.demo.core.repository.DailyReportRepository;
+import com.demo.demo.core.repository.daily.DailyReportRepository;
 import com.demo.demo.test.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
