@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Table(name = "user_label", schema = "titan")
 public class UserLabel {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic

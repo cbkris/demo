@@ -2,10 +2,7 @@ package com.demo.demo.core.entity;
 
 import lombok.*;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -15,6 +12,7 @@ import java.sql.Timestamp;
 @Entity
 public class Role {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id", nullable = false)
     private Integer roleId;
     @Basic

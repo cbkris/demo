@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Table(name = "role_permission", schema = "titan")
 public class RolePermission {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic
