@@ -7,7 +7,9 @@ import com.demo.demo.web.login.vo.UserRegisterVO;
 import com.demo.demo.web.utils.ConvertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,8 +20,6 @@ public class LoginController {
 
     @Autowired
     LoginService loginService;
-
-
 
     /**
      * 注册功能,需要邮箱和密码
@@ -33,7 +33,8 @@ public class LoginController {
         if (br.hasErrors()){
             throw new EmailParamErrorException();
         }
-        loginService.register(ConvertUtil.registerVO_UserToMail(registerVO));
+        System.out.println(ConvertUtil.registerVO_UserToMail(registerVO));
+        //loginService.register(ConvertUtil.registerVO_UserToMail(registerVO));
         return new DemoResponse();
     }
 }

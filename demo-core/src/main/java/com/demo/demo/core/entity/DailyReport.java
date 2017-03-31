@@ -1,6 +1,8 @@
 package com.demo.demo.core.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,11 +13,14 @@ import java.util.Date;
  */
 @Entity
 @Data
+@DynamicUpdate
+@DynamicInsert
 @Table(name = "daily_report")
+
 public class DailyReport {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id",updatable = false)
+    @Column(name = "id", updatable = false)
     private Integer id;
     private String operator;
     private Integer areaId;

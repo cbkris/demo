@@ -1,6 +1,8 @@
 package com.demo.demo.core.entity;
 
-import lombok.*;
+import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,56 +12,58 @@ import java.util.Date;
  * Created by cb on 2017/3/30.
  */
 @Data
+@DynamicInsert
+@DynamicUpdate
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Integer userId;
     @Basic
-    @Column(name = "user_name", nullable = false, length = 32)
+    @Column(name = "user_name")
     private String userName;
     @Basic
-    @Column(name = "sso_id", nullable = false)
+    @Column(name = "sso_id")
     private Integer ssoId;
     @Basic
-    @Column(name = "user_state", nullable = false)
+    @Column(name = "user_state")
     private Byte userState;
     @Basic
-    @Column(name = "auth_time", nullable = false)
+    @Column(name = "auth_time")
     private Timestamp authTime;
     @Basic
-    @Column(name = "name", nullable = false, length = 32)
+    @Column(name = "name")
     private String name;
     @Basic
-    @Column(name = "identity_card", nullable = false, length = 18)
+    @Column(name = "identity_card")
     private String identityCard;
     @Basic
-    @Column(name = "phone", nullable = false, length = 12)
+    @Column(name = "phone")
     private String phone;
     @Basic
-    @Column(name = "agent_id", nullable = false, length = 128)
+    @Column(name = "agent_id")
     private String agentId;
     @Basic
-    @Column(name = "agent_name", nullable = false, length = 64)
+    @Column(name = "agent_name")
     private String agentName;
     @Basic
-    @Column(name = "description", nullable = false, length = 256)
+    @Column(name = "description")
     private String description;
     @Basic
-    @Column(name = "graduration_time", nullable = false)
-    private Date gradurationTime;
+    @Column(name = "graduate_time")
+    private Date graduateTime;
     @Basic
-    @Column(name = "education", nullable = false, length = 32)
+    @Column(name = "education")
     private String education;
     @Basic
-    @Column(name = "univercity", nullable = false, length = 128)
-    private String univercity;
+    @Column(name = "university")
+    private String university;
     @Basic
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time")
     private Timestamp createTime;
     @Basic
-    @Column(name = "icon", nullable = false, length = 128)
+    @Column(name = "icon")
     private String icon;
 
 }

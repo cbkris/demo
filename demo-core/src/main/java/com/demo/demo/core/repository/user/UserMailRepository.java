@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * Created by cb on 2017/3/30.
  */
 @Repository
-public interface UserToMailRepository extends BaseRepository<UserMail, Integer> {
+public interface UserMailRepository extends BaseRepository<UserMail, Integer> {
 }

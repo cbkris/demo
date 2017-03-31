@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class UserRegisterVO {
     @NotNull
     @Email(regexp = "\\w+@\\w+\\.\\w+")
-    private String email;
+    private String mail;
     @NotNull
     private String pwd;
 }

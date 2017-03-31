@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by cb on 2017/3/23.
  * 启动类
  */
-@EnableTransactionManagement(mode = AdviceMode.PROXY)
 @EnableJpaRepositories(basePackages = "com.demo.demo.core.repository",
         queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 @EntityScan(basePackages = "com.demo.demo.core.entity")

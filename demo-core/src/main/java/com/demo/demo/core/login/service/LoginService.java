@@ -2,13 +2,16 @@ package com.demo.demo.core.login.service;
 
 import com.demo.demo.core.entity.User;
 import com.demo.demo.core.entity.UserMail;
+import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.repository.user.UserRepository;
-import com.demo.demo.core.repository.user.UserToMailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * Created by cb on 2017/3/29.
@@ -20,7 +23,11 @@ public class LoginService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    UserToMailRepository userToMailRepository;
+    UserMailRepository userMailRepository;
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+    @Autowired
+    EntityManager entityManager;
 
     private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 
@@ -35,8 +42,9 @@ public class LoginService {
         user = userRepository.save(user);
         logger.info("注册新用户[user_id = {}]",user.getUserId());
         userMail.setUserId(user.getUserId());
-        UserMail mail = userToMailRepository.save(userMail);
+        UserMail mail = userMailRepository.save(userMail);
         logger.debug("存储[user_id = {}]的邮箱[id = {}]",user.getUserId(),mail.getId());
         System.out.println(mail);
     }
+
 }

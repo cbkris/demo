@@ -33,4 +33,5 @@ public interface DailyReportRepository extends BaseRepository<DailyReport,Intege
     int setAgentFor(String agent,Integer id);
     //仅仅暴露你想要的信息
     OnlyCustomer findById(Integer id);
+
 }
