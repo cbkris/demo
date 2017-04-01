@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * Created by cb on 2017/3/29.
  */
-@EnableSpringDataWebSupport
+
 @Configuration
 public class DemoWebConfig extends WebMvcConfigurerAdapter{
 }

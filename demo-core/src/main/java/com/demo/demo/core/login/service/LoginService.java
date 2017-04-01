@@ -24,10 +24,8 @@ public class LoginService {
     UserRepository userRepository;
     @Autowired
     UserMailRepository userMailRepository;
-    @Autowired
-    EntityManagerFactory entityManagerFactory;
-    @Autowired
-    EntityManager entityManager;
+
+
 
     private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 

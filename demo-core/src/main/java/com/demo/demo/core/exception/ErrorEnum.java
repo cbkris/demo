@@ -6,7 +6,8 @@ package com.demo.demo.core.exception;
  */
 public enum ErrorEnum {
     SUCCESS(0, "success"),
-    EMAIL_PARAM_ERROR(10001,"email param error"),
+    PERMISSION_DENIED(10001,"权限不足"),
+    EMAIL_PARAM_ERROR(20001,"email param error"),
 
     FAILED(-1, "failed");
 
