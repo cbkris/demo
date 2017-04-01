@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by cb on 2017/3/23.
  * 启动类
  */
-@EnableJpaRepositories(basePackages = "com.demo.demo.core.repository",
+@EnableJpaRepositories(basePackages = "com.demo.demo.core",
         queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
-@EntityScan(basePackages = "com.demo.demo.core.entity")
+@EntityScan(basePackages = "com.demo.demo.core")
 @SpringBootApplication(scanBasePackages = "com.demo.demo")
 public class DemoApplication {
     public static void main(String[] args) {

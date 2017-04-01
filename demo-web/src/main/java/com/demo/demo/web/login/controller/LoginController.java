@@ -7,9 +7,8 @@ import com.demo.demo.web.login.vo.UserRegisterVO;
 import com.demo.demo.web.utils.ConvertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,12 +28,12 @@ public class LoginController {
      * @return
      */
     @PostMapping(value = "/register")
-    public DemoResponse register(UserRegisterVO registerVO, BindingResult br){
+    public DemoResponse register(@Validated UserRegisterVO registerVO, BindingResult br){
         if (br.hasErrors()){
             throw new EmailParamErrorException();
         }
-        System.out.println(ConvertUtil.registerVO_UserToMail(registerVO));
-        //loginService.register(ConvertUtil.registerVO_UserToMail(registerVO));
+        //System.out.println(ConvertUtil.registerVO_UserToMail(registerVO));
+        loginService.register(ConvertUtil.registerVO_UserToMail(registerVO));
         return new DemoResponse();
     }
 }

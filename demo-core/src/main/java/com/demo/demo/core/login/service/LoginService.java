@@ -35,15 +35,15 @@ public class LoginService {
      * 邮箱注册用户
      * 先注册一个空的user,把user_name设置成邮箱,拿到user_id,然后再把这个一起存到user_mail
      */
-    @Transactional(readOnly = false,rollbackFor = Throwable.class)
-    public void register(UserMail userMail){
+    @Transactional(readOnly = false, rollbackFor = Throwable.class)
+    public void register(UserMail userMail) {
         User user = new User();
         user.setUserName(userMail.getMail());
         user = userRepository.save(user);
-        logger.info("注册新用户[user_id = {}]",user.getUserId());
+        logger.info("注册新用户[user_id = {}]", user.getUserId());
         userMail.setUserId(user.getUserId());
         UserMail mail = userMailRepository.save(userMail);
-        logger.debug("存储[user_id = {}]的邮箱[id = {}]",user.getUserId(),mail.getId());
+        logger.debug("存储[user_id = {}]的邮箱[id = {}]", user.getUserId(), mail.getId());
         System.out.println(mail);
     }
 
