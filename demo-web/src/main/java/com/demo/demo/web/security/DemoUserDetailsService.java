@@ -1,6 +1,7 @@
 package com.demo.demo.web.security;
 
-import com.demo.demo.core.user.service.RoleService;
+import com.demo.demo.core.entity.UserMail;
+import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,18 +15,20 @@ import org.springframework.util.StringUtils;
  * 加载GrantedAuthority对象数组
  */
 //@Component
-public class DemoUserDetailsService implements UserDetailsService{
+public class DemoUserDetailsService implements UserDetailsService {
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
+    UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (StringUtils.isEmpty(username)) {
-            throw new UsernameNotFoundException("用户名为空");
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+        if (StringUtils.isEmpty(mail)) {
+            throw new UsernameNotFoundException("账号为空");
         }
-
-        return null;
+        UserMail userMail = userService.findByMail(mail);
+        if (userMail == null) {
+            throw new UsernameNotFoundException("账号:"+mail+",不存在");
+        }
+        SecurityUser securityUser = new SecurityUser(userMail);
+        return securityUser;
     }
 }

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserMailRepository extends BaseRepository<UserMail, Integer> {
+    UserMail findByMail(String mail);
 }

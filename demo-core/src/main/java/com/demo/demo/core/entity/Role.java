@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by cb on 2017/3/30.
@@ -19,6 +20,16 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
     private Integer roleId;
+    //@Transient
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "role_permission",
+            joinColumns = {
+                @JoinColumn(name = "role_id",referencedColumnName = "role_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "permission_id",referencedColumnName = "permission_id")
+            }
+    )
+    private List<Permission> permissionList;
     @Basic
     @Column(name = "role_name")
     private String roleName;

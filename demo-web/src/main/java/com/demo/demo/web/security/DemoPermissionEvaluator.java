@@ -8,15 +8,18 @@ import java.io.Serializable;
 
 /**
  * Created by cb on 2017/4/1.
+ * 为了给hasPermission()提供实现逻辑
  */
 //@Component
-public class DemoPermissionService implements PermissionEvaluator {
+public class DemoPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+        authentication.getAuthorities().contains("ADMIN_AUTHORITY");
         return false;
     }
 
     /**
+     * 通过目标ID来判断
      * 不使用
      * @param authentication
      * @param targetId

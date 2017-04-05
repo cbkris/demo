@@ -1,17 +1,18 @@
 package com.demo.demo.web.config;
 
 import com.demo.demo.web.error.DemoAccessDeniedHandler;
+import com.demo.demo.web.security.DemoUserDetailsService;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.SecurityConfigurer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Created by cb on 2017/3/29.
@@ -22,6 +23,8 @@ import org.springframework.security.core.userdetails.User;
 public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     DemoAccessDeniedHandler demoAccessDeniedHandler;
+    @Autowired
+    DemoUserDetailsService demoUserDetailsService;
 
 
 
@@ -29,7 +32,16 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("cb").password("aaa").roles("ADMIN");
+        //不删除凭据
+        auth.eraseCredentials(false);
+        //使用自定义的userDetailsService,将密码加密写入数据库
+        auth.userDetailsService(demoUserDetailsService).passwordEncoder(passwordEncoder());
     }
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(4);
+    }
+
     /**
      * 他们都是SecurityConfigurer的子类
      * request层面的配置
@@ -41,7 +53,10 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         //关掉csrf防御
         http.csrf().disable();
+        //定义异常处理
         http.exceptionHandling().accessDeniedHandler(demoAccessDeniedHandler);
+        //自定义响应头
+        //http.headers().defaultsDisabled();
         http.authorizeRequests()
                 .anyRequest().permitAll();//暂时允许所有request
                 //.antMatchers("/css/**", "/index").permitAll()
@@ -72,4 +87,5 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
     }
+
 }

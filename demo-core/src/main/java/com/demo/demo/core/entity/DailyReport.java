@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.persistence.metamodel.StaticMetamodel;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -16,7 +17,6 @@ import java.util.Date;
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "daily_report")
-
 public class DailyReport {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

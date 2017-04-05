@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by cb on 2017/3/30.
@@ -20,6 +21,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Integer userId;
+    //@Transient
+    @OneToMany(cascade = CascadeType.ALL)
+    //@JoinTable name是中间表的表明
+    //@JoinColumn name是中间表中的字段名,reference是关联表中的字段名
+    @JoinTable(name = "user_role",
+            joinColumns = {
+                @JoinColumn(name = "user_id",referencedColumnName = "user_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "role_id",referencedColumnName = "role_id")}
+    )
+    private List<Role> roleList;
     @Basic
     @Column(name = "user_name")
     private String userName;

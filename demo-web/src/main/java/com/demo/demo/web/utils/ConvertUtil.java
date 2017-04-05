@@ -22,12 +22,14 @@ public class ConvertUtil {
      */
     public static UserMail registerVO_UserToMail(UserRegisterVO vo) {
         UserMail userMail = new UserMail();
-        copyNotNull(vo,userMail);
+        copyNotNull(vo, userMail);
         return userMail;
     }
 
+
     /**
      * 获取传入的VO对象中是null的属性
+     *
      * @param source
      * @return
      */
@@ -35,16 +37,18 @@ public class ConvertUtil {
         final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
         return Stream.of(wrappedSource.getPropertyDescriptors())
                 .map(FeatureDescriptor::getName)
-                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null
+                        || "".equals(wrappedSource.getPropertyValue(propertyName)))
                 .toArray(String[]::new);
     }
 
     /**
      * 将不是Null的属性copy给原来的属性
+     *
      * @param source
      * @param target
      */
-    public static void copyNotNull(Object source,Object target){
-        BeanUtils.copyProperties(source,target,getNullPropertyNames(source));
+    public static void copyNotNull(Object source, Object target) {
+        BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
     }
 }

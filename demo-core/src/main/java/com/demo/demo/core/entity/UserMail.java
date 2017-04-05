@@ -1,6 +1,6 @@
 package com.demo.demo.core.entity;
 
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -20,7 +20,11 @@ public class UserMail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id",insertable = false,updatable = false)
+    private User user;
     @Basic
+    //@OneToOne
     @Column(name = "user_id")
     private Integer userId;
     @Basic

@@ -1,11 +1,10 @@
 package com.demo.demo.test.service;
 
 import com.demo.demo.core.daily.service.DailyService;
-import com.demo.demo.core.entity.DailyReport;
-import com.demo.demo.core.entity.User;
-import com.demo.demo.core.entity.UserMail;
+import com.demo.demo.core.entity.*;
 import com.demo.demo.core.login.service.LoginService;
 import com.demo.demo.core.repository.daily.DailyReportRepository;
+import com.demo.demo.core.repository.user.PermissionRepository;
 import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.test.BaseTest;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContexts;
 
 /**
  * Created by cb on 2017/3/29.
@@ -30,6 +28,17 @@ public class RepositoryTest extends BaseTest{
     UserRepository userRepository;
     @PersistenceContext
     EntityManager entityManager;
+    @Autowired
+    PermissionRepository permissionRepository;
+    @Test
+    public void test8(){
+        System.out.println(userRepository.findOne(4));
+    }
+
+    @Test
+    public void test7(){
+        loginService.test2();
+    }
 
     @Test
     public void test1(){

@@ -2,6 +2,8 @@ package com.demo.demo.core.repository.user;
 
 import com.demo.demo.core.entity.Role;
 import com.demo.demo.core.repository.BaseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
