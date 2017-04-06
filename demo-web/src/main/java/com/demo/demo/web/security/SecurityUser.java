@@ -1,13 +1,15 @@
 package com.demo.demo.web.security;
 
-import com.demo.demo.core.entity.UserMail;
+import com.demo.demo.core.entity.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Created by cb on 2017/4/5.
+ * 权限对象,包含了账户当前状态和具体权限信息,在SecurityContext中存的就是他
  */
 public class SecurityUser extends UserMail implements UserDetails {
 
@@ -29,17 +31,31 @@ public class SecurityUser extends UserMail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        List<Role> roleList = this.getUser().getRoleList();
+        if (roleList != null) {
+            roleList.stream().forEach(role -> {
+                //添加角色,只认识ROLE_开头的
+                SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getRoleName());
+                authorities.add(grantedAuthority);
+                //添加权限
+                List<Permission> permissionList = role.getPermissionList();
+                if (permissionList != null) {
+                    permissionList.stream().forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getPermissionName())));
+                }
+            });
+        }
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return super.getPwd();
+        return this.getPwd();
     }
 
     @Override
     public String getUsername() {
-        return super.getUser().getUserName();
+        return this.getUser().getUserName();
     }
 
     /**

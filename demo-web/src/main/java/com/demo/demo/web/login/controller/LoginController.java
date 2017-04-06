@@ -1,7 +1,5 @@
 package com.demo.demo.web.login.controller;
 
-import com.demo.demo.core.entity.Role;
-import com.demo.demo.core.entity.User;
 import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.core.exception.EmailParamErrorException;
 import com.demo.demo.core.login.service.LoginService;
@@ -11,7 +9,6 @@ import com.demo.demo.core.user.service.RoleService;
 import com.demo.demo.core.user.service.UserService;
 import com.demo.demo.web.config.DemoResponse;
 import com.demo.demo.web.login.vo.UserRegisterVO;
-import com.demo.demo.web.security.DemoPermissionEvaluator;
 import com.demo.demo.web.utils.ConvertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;

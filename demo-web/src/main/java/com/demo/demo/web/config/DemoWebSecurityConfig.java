@@ -1,8 +1,9 @@
 package com.demo.demo.web.config;
 
-import com.demo.demo.web.error.DemoAccessDeniedHandler;
-import com.demo.demo.web.security.DemoUserDetailsService;
-import org.apache.catalina.security.SecurityUtil;
+import com.demo.demo.web.security.DemoAccessDeniedHandler;
+import com.demo.demo.web.security.DemoAuthenticationProvider;
+import com.demo.demo.web.security.DemoLoginSuccessHandler;
+import com.demo.demo.web.security.DemoUnAuthenticationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,31 +12,32 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Created by cb on 2017/3/29.
  * Spring Security配置类
  */
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
-    DemoAccessDeniedHandler demoAccessDeniedHandler;
+    DemoAccessDeniedHandler accessDeniedHandler;
     @Autowired
-    DemoUserDetailsService demoUserDetailsService;
-
-
-
+    DemoLoginSuccessHandler loginSuccessHandler;
     @Autowired
+    DemoUnAuthenticationHandler unAuthenticationHandler;
+    @Autowired
+    DemoAuthenticationProvider authenticationProvider;
+
+    //@Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("cb").password("aaa").roles("ADMIN");
+       // auth.inMemoryAuthentication()
+                //.withUser("cb").password("aaa").roles("ADMIN");
         //不删除凭据
-        auth.eraseCredentials(false);
+        //auth.eraseCredentials(false);
         //使用自定义的userDetailsService,将密码加密写入数据库
-        auth.userDetailsService(demoUserDetailsService).passwordEncoder(passwordEncoder());
+        //auth.userDetailsService(demoUserDetailsService).passwordEncoder(passwordEncoder());
     }
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -54,15 +56,25 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
         //关掉csrf防御
         http.csrf().disable();
         //定义异常处理
-        http.exceptionHandling().accessDeniedHandler(demoAccessDeniedHandler);
+        http.exceptionHandling()
+                //未登录
+                .authenticationEntryPoint(unAuthenticationHandler)
+                //权限不足
+                .accessDeniedHandler(accessDeniedHandler);
+
         //自定义响应头
         //http.headers().defaultsDisabled();
         http.authorizeRequests()
-                .anyRequest().permitAll();//暂时允许所有request
-                //.antMatchers("/css/**", "/index").permitAll()
-                //.antMatchers("/user/**").hasRole("ADMIN")
-                //.and()
-                //.formLogin().loginPage("/login").failureUrl("/login-error");
+                .antMatchers("/css/**", "/index","/login").permitAll()
+                .antMatchers("/user/**").hasRole("ADMIN")
+                .anyRequest()
+                .authenticated()
+                //.permitAll();//暂时允许所有request
+                .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .failureUrl("/login-error")
+                    .successHandler(loginSuccessHandler);
     }
 
     /**
@@ -75,6 +87,7 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/js/**","/css/**","/index");
+        //super.configure(web);
     }
 
     /**
@@ -85,7 +98,8 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter{
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        auth.authenticationProvider(authenticationProvider);
+        //super.configure(auth);
     }
 
 }

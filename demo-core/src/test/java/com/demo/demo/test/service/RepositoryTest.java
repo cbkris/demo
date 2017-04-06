@@ -5,6 +5,7 @@ import com.demo.demo.core.entity.*;
 import com.demo.demo.core.login.service.LoginService;
 import com.demo.demo.core.repository.daily.DailyReportRepository;
 import com.demo.demo.core.repository.user.PermissionRepository;
+import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.test.BaseTest;
 import org.junit.Test;
@@ -26,10 +27,18 @@ public class RepositoryTest extends BaseTest{
     LoginService loginService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserMailRepository userMailRepository;
     @PersistenceContext
     EntityManager entityManager;
     @Autowired
     PermissionRepository permissionRepository;
+
+    @Test
+    public void test9(){
+        System.out.println(userMailRepository.findByMail("975677342@qq.com"));
+    }
+
     @Test
     public void test8(){
         System.out.println(userRepository.findOne(4));

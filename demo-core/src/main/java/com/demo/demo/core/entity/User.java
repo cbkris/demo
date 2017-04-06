@@ -22,7 +22,7 @@ public class User {
     @Column(name = "user_id")
     private Integer userId;
     //@Transient
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     //@JoinTable name是中间表的表明
     //@JoinColumn name是中间表中的字段名,reference是关联表中的字段名
     @JoinTable(name = "user_role",

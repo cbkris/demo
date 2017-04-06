@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by cb on 2017/4/1.
+ * 不启用
  * 自定义AuthenticationManager
  */
 //@Component

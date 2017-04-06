@@ -1,4 +1,4 @@
-package com.demo.demo.web.error;
+package com.demo.demo.web.security;
 
 import com.demo.demo.core.exception.ErrorEnum;
 import com.demo.demo.web.config.DemoResponse;

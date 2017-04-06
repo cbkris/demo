@@ -7,14 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
  * Created by cb on 2017/4/1.
- * 用在加载在SecurityContext的Authentication中的Principal对象
- * 加载GrantedAuthority对象数组
+ *
+ * 用在加载在SecurityContext的Authentication中的具有权限的对象
  */
-//@Component
+@Component
 public class DemoUserDetailsService implements UserDetailsService {
     @Autowired
     UserService userService;

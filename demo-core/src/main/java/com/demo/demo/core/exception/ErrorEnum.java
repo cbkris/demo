@@ -11,6 +11,8 @@ public enum ErrorEnum {
     EMAIL_PARAM_ERROR(20001,"邮箱参数错误"),
     EMAIL_EXISTS_EXCEPTION(20002,"邮箱已存在"),
 
+    NOT_LOGIN(30001,"未登录"),
+
     FAILED(-1, "failed");
 
     private int code;

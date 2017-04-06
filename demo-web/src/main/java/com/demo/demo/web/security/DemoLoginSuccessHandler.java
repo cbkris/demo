@@ -1,7 +1,9 @@
 package com.demo.demo.web.security;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,17 +13,20 @@ import java.net.InetAddress;
 
 /**
  * Created by cb on 2017/4/5.
- * 登录成功处理
+ * 登录成功处理,拿到具有权限的authentication,将这个放入SecurityContext中,并显示登录信息
  */
+@Component
 public class DemoLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        //获得授权后的用户信息
+        //将认证后的信息存入上下文,以便于其他地方使用
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //显示登录信息
+        //System.out.println(authentication.getPrincipal().toString());
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
         System.out.println("用户:"+securityUser.getUsername()+",已登录,IP地址:"+getIp(request));
         super.onAuthenticationSuccess(request, response, authentication);
     }
-
     public static String getIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

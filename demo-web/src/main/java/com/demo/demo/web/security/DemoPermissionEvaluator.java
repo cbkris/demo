@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * Created by cb on 2017/4/1.
- * 为了给hasPermission()提供实现逻辑
+ * 为了给hasPermission()提供实现逻辑,先不写
  */
 //@Component
 public class DemoPermissionEvaluator implements PermissionEvaluator {
