@@ -1,4 +1,4 @@
-package com.demo.demo.web.config;
+package com.demo.demo.web.security.disable;
 
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 

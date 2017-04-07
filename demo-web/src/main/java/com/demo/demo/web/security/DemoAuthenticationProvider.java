@@ -1,6 +1,5 @@
 package com.demo.demo.web.security;
 
-import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.core.repository.user.UserMailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +20,6 @@ import org.springframework.util.StringUtils;
 public class DemoAuthenticationProvider implements AuthenticationProvider{
     private static final Logger logger = LoggerFactory.getLogger(DemoAuthenticationProvider.class);
 
-    @Autowired
-    UserMailRepository userMailRepository;
     @Autowired
     DemoUserDetailsService userDetailsService;
 

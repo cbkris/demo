@@ -1,7 +1,6 @@
 package com.demo.demo.web.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
@@ -10,9 +9,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 @EnableRedisHttpSession
 public class DemoSessionConfig {
-
-    @Bean
-    public JedisConnectionFactory jedisConnectionFactory(){
-        return new JedisConnectionFactory();
-    }
+//    //@Bean
+//    public JedisConnectionFactory jedisConnectionFactory(){
+//        return new JedisConnectionFactory();
+//    }
 }

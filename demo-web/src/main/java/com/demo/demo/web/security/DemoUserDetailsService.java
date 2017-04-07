@@ -3,6 +3,8 @@ package com.demo.demo.web.security;
 import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.user.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,7 @@ import org.springframework.util.StringUtils;
  */
 @Component
 public class DemoUserDetailsService implements UserDetailsService {
+    private static final Logger logger = LoggerFactory.getLogger(DemoUserDetailsService.class);
     @Autowired
     UserService userService;
 
@@ -30,6 +33,7 @@ public class DemoUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("账号:"+mail+",不存在");
         }
         UserDetails securityUser = new SecurityUser(userMail);
+        logger.debug("加载用户权限");
         return securityUser;
     }
 }

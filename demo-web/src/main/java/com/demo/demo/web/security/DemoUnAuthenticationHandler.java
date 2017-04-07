@@ -16,6 +16,7 @@ import java.io.IOException;
 
 /**
  * Created by cb on 2017/4/6.
+ * 认证入口点
  */
 @Component
 public class DemoUnAuthenticationHandler implements AuthenticationEntryPoint {
