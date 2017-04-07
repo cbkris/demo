@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by cb on 2017/3/30.
@@ -31,7 +31,7 @@ public class User {
             inverseJoinColumns = {
                 @JoinColumn(name = "role_id",referencedColumnName = "role_id")}
     )
-    private List<Role> roleList;
+    private Set<Role> roleList;
     @Basic
     @Column(name = "user_name")
     private String userName;

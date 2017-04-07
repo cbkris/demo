@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by cb on 2017/3/30.
@@ -29,7 +30,7 @@ public class Role {
                 @JoinColumn(name = "permission_id",referencedColumnName = "permission_id")
             }
     )
-    private List<Permission> permissionList;
+    private Set<Permission> permissionList;
     @Basic
     @Column(name = "role_name")
     private String roleName;

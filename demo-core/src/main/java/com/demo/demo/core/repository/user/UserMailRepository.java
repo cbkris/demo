@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface UserMailRepository extends BaseRepository<UserMail, Integer> {
     UserMail findByMail(String mail);
     UserMail findByMailAndPwd(String mail, String pwd);
+    UserMail findByToken(String token);
 }

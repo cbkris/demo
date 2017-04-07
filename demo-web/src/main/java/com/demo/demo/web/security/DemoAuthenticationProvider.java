@@ -2,6 +2,8 @@ package com.demo.demo.web.security;
 
 import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.core.repository.user.UserMailRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -17,6 +19,8 @@ import org.springframework.util.StringUtils;
  */
 @Component
 public class DemoAuthenticationProvider implements AuthenticationProvider{
+    private static final Logger logger = LoggerFactory.getLogger(DemoAuthenticationProvider.class);
+
     @Autowired
     UserMailRepository userMailRepository;
     @Autowired
@@ -26,6 +30,7 @@ public class DemoAuthenticationProvider implements AuthenticationProvider{
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //接收到的应该是由SecurityContextPersistenceFilter捕获的一个token,用来提供认证的凭证,可能有多种
         if (authentication instanceof UsernamePasswordAuthenticationToken){
+            logger.debug("通过用户名密码登录");
             //用来处理用户名密码登录
             UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
             String mail = token.getPrincipal().toString();
@@ -37,18 +42,7 @@ public class DemoAuthenticationProvider implements AuthenticationProvider{
             if (!password.equals(userDetails.getPassword())){
                 throw new BadCredentialsException("用户名或密码错误");
             }
-            if(!userDetails.isEnabled()){
-                throw new DisabledException("账号被禁用");
-            }
-            if (!userDetails.isAccountNonExpired()){
-                throw new AccountExpiredException("账号已过期");
-            }
-            if (!userDetails.isAccountNonLocked()){
-                throw new LockedException("账号被锁定");
-            }
-            if (!userDetails.isCredentialsNonExpired()){
-                throw new BadCredentialsException("凭证已过期");
-            }
+            checkUser(userDetails);
             //加载所有权限
             return new UsernamePasswordAuthenticationToken(userDetails,userDetails.getPassword(),userDetails.getAuthorities());
         }
@@ -59,4 +53,24 @@ public class DemoAuthenticationProvider implements AuthenticationProvider{
     public boolean supports(Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.equals(authentication);
     }
+
+    /**
+     * 检查账号是否异常
+     * @param userDetails
+     */
+    public static void checkUser(UserDetails userDetails) {
+        if(!userDetails.isEnabled()){
+            throw new DisabledException("账号被禁用");
+        }
+        if (!userDetails.isAccountNonExpired()){
+            throw new AccountExpiredException("账号已过期");
+        }
+        if (!userDetails.isAccountNonLocked()){
+            throw new LockedException("账号被锁定");
+        }
+        if (!userDetails.isCredentialsNonExpired()){
+            throw new BadCredentialsException("凭证已过期");
+        }
+    }
+
 }

@@ -32,14 +32,14 @@ public class SecurityUser extends UserMail implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        List<Role> roleList = this.getUser().getRoleList();
+        Set<Role> roleList = this.getUser().getRoleList();
         if (roleList != null) {
             roleList.stream().forEach(role -> {
                 //添加角色,只认识ROLE_开头的
                 SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getRoleName());
                 authorities.add(grantedAuthority);
                 //添加权限
-                List<Permission> permissionList = role.getPermissionList();
+                Set<Permission> permissionList = role.getPermissionList();
                 if (permissionList != null) {
                     permissionList.stream().forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getPermissionName())));
                 }
@@ -50,12 +50,12 @@ public class SecurityUser extends UserMail implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.getPwd();
+        return super.getPwd();
     }
 
     @Override
     public String getUsername() {
-        return this.getUser().getUserName();
+        return super.getUser().getUserName();
     }
 
     /**

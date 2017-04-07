@@ -29,7 +29,7 @@ public class DemoUserDetailsService implements UserDetailsService {
         if (userMail == null) {
             throw new UsernameNotFoundException("账号:"+mail+",不存在");
         }
-        SecurityUser securityUser = new SecurityUser(userMail);
+        UserDetails securityUser = new SecurityUser(userMail);
         return securityUser;
     }
 }

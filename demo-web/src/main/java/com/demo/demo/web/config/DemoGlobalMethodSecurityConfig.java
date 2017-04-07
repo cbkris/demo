@@ -1,9 +1,5 @@
 package com.demo.demo.web.config;
 
-import com.demo.demo.web.security.DemoPermissionEvaluator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
 /**

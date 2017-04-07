@@ -1,4 +1,4 @@
-package com.demo.demo.web.security;
+package com.demo.demo.web.security.disable;
 
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
