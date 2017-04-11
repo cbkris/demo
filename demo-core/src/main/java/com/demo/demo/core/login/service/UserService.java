@@ -37,6 +37,7 @@ public class UserService {
      * @param rawPassword
      * @return
      */
+    @Transactional(readOnly = true)
     public UserMail loginByMail(String mail,String rawPassword){
         logger.debug("用户[{}]登录",mail);
         UserMail userMail = userMailRepository.findByMail(mail);
@@ -72,8 +73,15 @@ public class UserService {
         logger.info("注册新用户[user_id = {}]", user.getUserId());
         //将新用户的userId赋值给邮箱,用来插入新邮箱记录
         userMail.setUserId(user.getUserId());
+        //生成一个salt
+        String salt = PwdEncoder.genSalt();
+        userMail.setSalt(salt);
+        //将密码加密
+        String password = PwdEncoder.encode(userMail.getPwd(),salt);
+        userMail.setPwd(password);
+        //注册新的用户
         UserMail mail = userMailRepository.save(userMail);
-        logger.debug("存储[user_id = {}]的邮箱[id = {}]", user.getUserId(), mail.getId());
+        logger.debug("注册用户[user_id = {}]的邮箱[id = {}]", user.getUserId(), mail.getId());
     }
 
 

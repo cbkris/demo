@@ -112,7 +112,7 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         logger.debug("开始配置忽略的路径");
-        web.ignoring().antMatchers("/js/**", "/css/**", "/index","/test");
+        web.ignoring().antMatchers("/js/**", "/css/**", "/index","/test","/register");
         //super.configure(web);
     }
 
