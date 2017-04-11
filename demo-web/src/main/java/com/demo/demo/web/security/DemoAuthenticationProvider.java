@@ -1,47 +1,61 @@
 package com.demo.demo.web.security;
 
-import com.demo.demo.core.repository.user.UserMailRepository;
+import com.demo.demo.core.entity.Permission;
+import com.demo.demo.core.entity.Role;
+import com.demo.demo.core.entity.UserMail;
+import com.demo.demo.core.login.service.UserService;
+import com.demo.demo.web.login.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by cb on 2017/4/1.
  * 认证的具体实现,查询数据库,配置权限
  */
 @Component
-public class DemoAuthenticationProvider implements AuthenticationProvider{
+public class DemoAuthenticationProvider implements AuthenticationProvider {
     private static final Logger logger = LoggerFactory.getLogger(DemoAuthenticationProvider.class);
 
     @Autowired
-    DemoUserDetailsService userDetailsService;
+    UserService userService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //接收到的应该是由SecurityContextPersistenceFilter捕获的一个token,用来提供认证的凭证,可能有多种
-        if (authentication instanceof UsernamePasswordAuthenticationToken){
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
             logger.debug("通过用户名密码登录");
             //用来处理用户名密码登录
             UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
             String mail = token.getPrincipal().toString();
             String password = token.getCredentials().toString();
-            if (StringUtils.isEmpty(mail)) {
-                throw new UsernameNotFoundException("用户名为空");
-            }
-            UserDetails userDetails = userDetailsService.loadUserByUsername(mail);
-            if (!password.equals(userDetails.getPassword())){
-                throw new BadCredentialsException("用户名或密码错误");
-            }
-            checkUser(userDetails);
-            //加载所有权限
-            return new UsernamePasswordAuthenticationToken(userDetails,userDetails.getPassword(),userDetails.getAuthorities());
+            //调用自己的service
+            UserMail userMail = userService.loginByMail(mail, password);
+            //加载权限
+            Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) getAuthorities(userMail);
+            logger.debug("加载所有权限[{}]",authorities);
+//          UserDetails userDetails = userDetailsService.loadUserByUsername(mail);
+//          checkUser(userDetails);
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                            authentication.getPrincipal(),authentication.getCredentials(),authorities);
+            //把vo对象放进details里
+            UserVO vo = new UserVO();
+            vo.setUserId(userMail.getUserId());
+            vo.setUsername(userMail.getUser().getUserName());
+            authToken.setDetails(vo);
+            //authToken.setDetails(userDetails);
+            return authToken;
         }
         return null;
     }
@@ -51,21 +65,38 @@ public class DemoAuthenticationProvider implements AuthenticationProvider{
         return UsernamePasswordAuthenticationToken.class.equals(authentication);
     }
 
+    public Set<? extends GrantedAuthority> getAuthorities(UserMail userMail) {
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        Set<Role> roleList = userMail.getUser().getRoleList();
+        if (roleList != null) {
+            roleList.stream().forEach(role -> {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+                Set<Permission> permissions = role.getPermissionList();
+                if (permissions != null) {
+                    permissions.stream().forEach(permission ->
+                            authorities.add(new SimpleGrantedAuthority(permission.getPermissionName())));
+                }
+            });
+        }
+        return authorities;
+    }
+
     /**
      * 检查账号是否异常
+     *
      * @param userDetails
      */
     public static void checkUser(UserDetails userDetails) {
-        if(!userDetails.isEnabled()){
+        if (!userDetails.isEnabled()) {
             throw new DisabledException("账号被禁用");
         }
-        if (!userDetails.isAccountNonExpired()){
+        if (!userDetails.isAccountNonExpired()) {
             throw new AccountExpiredException("账号已过期");
         }
-        if (!userDetails.isAccountNonLocked()){
+        if (!userDetails.isAccountNonLocked()) {
             throw new LockedException("账号被锁定");
         }
-        if (!userDetails.isCredentialsNonExpired()){
+        if (!userDetails.isCredentialsNonExpired()) {
             throw new BadCredentialsException("凭证已过期");
         }
     }

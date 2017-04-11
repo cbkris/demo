@@ -10,9 +10,11 @@ import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.test.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -29,10 +31,16 @@ public class RepositoryTest extends BaseTest{
     UserRepository userRepository;
     @Autowired
     UserMailRepository userMailRepository;
+
     @PersistenceContext
     EntityManager entityManager;
     @Autowired
     PermissionRepository permissionRepository;
+
+    @Test
+    public void test10(){
+        System.out.println(reportRepository.findById(1));
+    }
 
     @Test
     public void test9(){
@@ -71,7 +79,7 @@ public class RepositoryTest extends BaseTest{
         UserMail userMail = new UserMail();
         userMail.setMail("aaaaa@qq.com");
         userMail.setPwd("123456");
-        loginService.register(userMail);
+        //loginService.register(userMail);
     }
     @Transactional
     @Test

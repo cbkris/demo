@@ -2,6 +2,7 @@ package com.demo.demo.web.security;
 
 import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.core.repository.user.UserMailRepository;
+import com.demo.demo.web.security.disable.SecurityUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +29,24 @@ public class DemoRememberMeAuthenticationProvider implements AuthenticationProvi
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (authentication instanceof RememberMeAuthenticationToken){
             logger.debug("通过cookie自动登录");
-            RememberMeAuthenticationToken authToken = (RememberMeAuthenticationToken) authentication;
+            RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) authentication;
             //获取token值
-            //String token = (String) authToken.getPrincipal();
-            String token = "111111";
-            if (StringUtils.isEmpty(token)) {
+            String accessToken = (String) token.getPrincipal();
+            //String token = "111111";
+            if (StringUtils.isEmpty(accessToken)) {
                 return null;
             }
             //查询对应用户
-            UserMail userMail = userMailRepository.findByToken(token);
+            UserMail userMail = userMailRepository.findByToken(accessToken);
             if (userMail == null) {
                 throw new UsernameNotFoundException("自动登录失败");
             }
             UserDetails userDetails = new SecurityUser(userMail);
             //检查是账号否有异常状态
             DemoAuthenticationProvider.checkUser(userDetails);
-            return new UsernamePasswordAuthenticationToken(userDetails,userDetails.getPassword(),userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
+            authenticationToken.setDetails(userDetails);
+            return authenticationToken;
         }
         return null;
     }

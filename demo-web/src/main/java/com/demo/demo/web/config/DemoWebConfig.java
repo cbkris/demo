@@ -15,9 +15,9 @@ public class DemoWebConfig extends WebMvcConfigurerAdapter{
      * 添加缓存静态资源
      * @param registry
      */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //registry.addResourceHandler("/resources/**").addResourceLocations("/resource/").setCachePeriod(31556926);
-        super.addResourceHandlers(registry);
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        //registry.addResourceHandler("/resources/**").addResourceLocations("/resource/").setCachePeriod(31556926);
+//        super.addResourceHandlers(registry);
+//    }
 }

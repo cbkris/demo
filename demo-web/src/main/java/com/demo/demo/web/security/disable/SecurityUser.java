@@ -1,4 +1,4 @@
-package com.demo.demo.web.security;
+package com.demo.demo.web.security.disable;
 
 import com.demo.demo.core.entity.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +12,10 @@ import java.util.*;
  * 权限对象,包含了账户当前状态和具体权限信息,在SecurityContext中存的就是他
  */
 public class SecurityUser extends UserMail implements UserDetails {
+
+    public SecurityUser(){
+
+    }
 
     public SecurityUser(UserMail userMail) {
         if (userMail != null) {

@@ -1,5 +1,7 @@
 package com.demo.demo.web.constant;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by cb on 2017/4/7.
  */
@@ -17,5 +19,6 @@ public class Constants {
     public static class Cookie {
         public static final String REMEMBER_ME = "remember_me";
         public static final int TOKEN_LENGTH = 15;
+        public static final int TOKEN_TIME= (int) TimeUnit.DAYS.toSeconds(30);
     }
 }

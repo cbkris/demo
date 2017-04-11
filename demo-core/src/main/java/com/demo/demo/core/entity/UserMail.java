@@ -20,7 +20,7 @@ public class UserMail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",referencedColumnName = "user_id",insertable = false,updatable = false)
     private User user;
     @Basic

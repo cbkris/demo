@@ -5,6 +5,7 @@ import com.demo.demo.web.login.vo.UserRegisterVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.util.StringUtils;
 
 import java.beans.FeatureDescriptor;
 import java.util.stream.Stream;
@@ -37,11 +38,13 @@ public class ConvertUtil {
         final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
         return Stream.of(wrappedSource.getPropertyDescriptors())
                 .map(FeatureDescriptor::getName)
-                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null
-                        || "".equals(wrappedSource.getPropertyValue(propertyName)))
+                .filter(propertyName -> StringUtils.isEmpty(wrappedSource.getPropertyValue(propertyName)))
                 .toArray(String[]::new);
     }
 
+
+//wrappedSource.getPropertyValue(propertyName) == null
+//            || "".equals(wrappedSource.getPropertyValue(propertyName))
     /**
      * 将不是Null的属性copy给原来的属性
      *

@@ -22,7 +22,7 @@ public class Role {
     @Column(name = "role_id")
     private Integer roleId;
     //@Transient
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "role_permission",
             joinColumns = {
                 @JoinColumn(name = "role_id",referencedColumnName = "role_id")},

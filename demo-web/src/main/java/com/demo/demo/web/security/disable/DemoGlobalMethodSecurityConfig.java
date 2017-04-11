@@ -1,5 +1,8 @@
 package com.demo.demo.web.security.disable;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
 /**
@@ -7,7 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Globa
  * 添加hasPermission实现逻辑,否则会默认返回false
  */
 public class DemoGlobalMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
-   /*
+
     @Autowired
     DemoPermissionEvaluator permissionEvaluator;
     @Override
@@ -16,5 +19,5 @@ public class DemoGlobalMethodSecurityConfig extends GlobalMethodSecurityConfigur
         expressionHandler.setPermissionEvaluator(permissionEvaluator);
         return expressionHandler;
     }
-    */
+
 }
