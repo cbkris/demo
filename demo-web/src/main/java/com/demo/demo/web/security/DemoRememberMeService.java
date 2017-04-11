@@ -1,10 +1,12 @@
 package com.demo.demo.web.security;
 
+import com.demo.demo.core.utils.PwdEncoder;
 import com.demo.demo.web.constant.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -50,9 +53,14 @@ public class DemoRememberMeService implements RememberMeServices {
         return authentication;
     }
 
+    /**
+     * 登录失败,就删除所有context,
+     * @param request
+     * @param response
+     */
     @Override
     public void loginFail(HttpServletRequest request, HttpServletResponse response) {
-
+        SecurityContextHolder.clearContext();
     }
 
     /**
@@ -65,6 +73,8 @@ public class DemoRememberMeService implements RememberMeServices {
     @Override
     public void loginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication successfulAuthentication) {
         logger.debug("执行rememberService的登录成功");
+        //生成一个cookie用来自动登录
+        String token = PwdEncoder.genSalt();
         Cookie cookie = new Cookie(Constants.Cookie.REMEMBER_ME, "111111");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(Constants.Cookie.TOKEN_TIME);
