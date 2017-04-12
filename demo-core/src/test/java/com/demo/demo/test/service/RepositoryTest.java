@@ -2,7 +2,9 @@ package com.demo.demo.test.service;
 
 import com.demo.demo.core.daily.service.DailyService;
 import com.demo.demo.core.entity.*;
+import com.demo.demo.core.login.service.MailService;
 import com.demo.demo.core.login.service.TestService;
+import com.demo.demo.core.login.service.UserService;
 import com.demo.demo.core.repository.daily.DailyReportRepository;
 import com.demo.demo.core.repository.user.PermissionRepository;
 import com.demo.demo.core.repository.user.UserMailRepository;
@@ -21,6 +23,9 @@ import javax.persistence.PersistenceContext;
  * Created by cb on 2017/3/29.
  */
 public class RepositoryTest extends BaseTest{
+
+    @PersistenceContext(unitName = "main")
+    EntityManager entityManager;
     @Autowired
     DailyReportRepository reportRepository;
     @Autowired
@@ -31,15 +36,25 @@ public class RepositoryTest extends BaseTest{
     UserRepository userRepository;
     @Autowired
     UserMailRepository userMailRepository;
-
-    @PersistenceContext
-    EntityManager entityManager;
     @Autowired
     PermissionRepository permissionRepository;
+    @Autowired
+    MailService mailService;
+    @Autowired
+    UserService userService;
+
+    /**
+     * 邮件测试
+     */
+    @Test
+    public void test11(){
+        mailService.sendTest("975677342@qq.com","Hello","World");
+    }
+
 
     @Test
     public void test10(){
-        Sort sort = new Sort(Sort.Direction.DESC,"id","agentId");
+        Sort sort = new Sort(Sort.Direction.DESC,"id");
         Pageable pageable = new PageRequest(2,2,sort);
         Integer pageSize = pageable.getPageSize();
         Integer pageNo = pageable.getPageNumber();

@@ -27,7 +27,7 @@ public interface DailyReportRepository extends BaseRepository<DailyReport,Intege
 
     //原生SQL语句,但是不再支持分页和排序
     @Query(nativeQuery = true,value = "SELECT * FROM daily_report daily WHERE daily.area_id=?1")
-    List<DailyReport> findAllByAreaId(Integer id);
+    List<DailyReport> findAllByAreaId(String areaId);
     //使用@Param指定参数
     @Query(value = "select daily from DailyReport daily where daily.operator=:operator")
     List<DailyReport> findAllByOperator(@Param("operator") String operator);

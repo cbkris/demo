@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
  */
 @Repository
 public class DailyReportRepositoryImpl {
-    @PersistenceContext
+    @PersistenceContext(unitName = "main")
     EntityManager entityManager;
 
 

@@ -28,8 +28,8 @@ public class DataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.other")
+   // @Bean
+   // @ConfigurationProperties(prefix = "spring.datasource.other")
     public DataSource otherDataSource(){
         return DataSourceBuilder.create().build();
     }
@@ -47,12 +47,16 @@ public class DataSourceConfig {
                 .packages("com.demo.demo.core")
                 .persistenceUnit("main")
                 .build();
+//        Properties properties = new Properties();
+//        properties.setProperty("spring.jpa.hibernate.naming.implicit-strategy","org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy");
+//        properties.setProperty("spring.jpa.hibernate.naming.physical-strategy","org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy");
+//        emfb.setJpaProperties(properties);
         return emfb;
     }
-    @Bean(name = "otherEntityManagerFactory")
+    //@Bean(name = "otherEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean otherEntityManagerFactory(EntityManagerFactoryBuilder builder){
         LocalContainerEntityManagerFactoryBean emfb = builder
-                .dataSource(mainDataSource())
+                .dataSource(otherDataSource())
                 .packages("com.demo.demo.core")
                 .persistenceUnit("other")
                 .build();
@@ -70,9 +74,9 @@ public class DataSourceConfig {
         return new JpaTransactionManager(mainEntityManagerFactory(builder).getObject());
     }
 
-    @Bean(name = "otherTransactionManager")
+    //@Bean(name = "otherTransactionManager")
     public PlatformTransactionManager otherTransactionManager(EntityManagerFactoryBuilder builder){
-        return new JpaTransactionManager(mainEntityManagerFactory(builder).getObject());
+        return new JpaTransactionManager(otherEntityManagerFactory(builder).getObject());
     }
 
 }

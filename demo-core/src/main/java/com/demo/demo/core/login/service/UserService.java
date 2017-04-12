@@ -101,12 +101,4 @@ public class UserService {
         logger.debug("注册用户[user_id = {}]的邮箱[id = {}]", user.getUserId(), mail.getId());
     }
 
-
-
-
-
-    public void test(){
-        mailService.sendMail("975677342@qq.com","Hello","World");
-    }
-
 }

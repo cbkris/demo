@@ -1,6 +1,7 @@
 package com.demo.demo.web.login.controller;
 
 import com.demo.demo.core.exception.EmailParamErrorException;
+import com.demo.demo.core.login.service.MailService;
 import com.demo.demo.core.login.service.UserService;
 import com.demo.demo.web.config.DemoResponse;
 import com.demo.demo.web.login.vo.UserLoginVO;
@@ -44,7 +45,6 @@ public class LoginController {
 
     @GetMapping(value = "/test")
     public DemoResponse test() {
-        userService.test();
         return new DemoResponse();
     }
 

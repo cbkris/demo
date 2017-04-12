@@ -3,7 +3,9 @@ package com.demo.demo.core.login.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,23 +17,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
     private static final Logger logger = LoggerFactory.getLogger(MailService.class);
+    @Value("${spring.mail.username}")
+    String sendFrom;
 
     @Autowired
-    MyMailSender mailSender;
+    MailSender mailSender;
 
-    /**
-     * 发送邮件
-     * @param target
-     * @param subject
-     * @param text
-     */
-    public void sendMail(String target, String subject, String text) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("cb_kris@sina.com");
-        simpleMailMessage.setTo(target);
-        simpleMailMessage.setSubject(subject);
-        simpleMailMessage.setText(text);
-        mailSender.javaMailSender.send(simpleMailMessage);
-        logger.info("向[{}]发送邮件",target);
+
+    public void sendTest(String to,String subject,String text){
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(sendFrom);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(text);
+
+        mailSender.send(mailMessage);
+        logger.info("邮件发送完成,目标:[{}]",to);
     }
 }
