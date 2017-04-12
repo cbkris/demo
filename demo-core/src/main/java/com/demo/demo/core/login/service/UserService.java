@@ -2,10 +2,8 @@ package com.demo.demo.core.login.service;
 
 import com.demo.demo.core.entity.User;
 import com.demo.demo.core.entity.UserMail;
-import com.demo.demo.core.exception.EmailExistsException;
-import com.demo.demo.core.exception.EmailNotFoundException;
-import com.demo.demo.core.exception.PasswordWrongException;
-import com.demo.demo.core.exception.TokenInvalidException;
+import com.demo.demo.core.exception.*;
+import com.demo.demo.core.login.constant.LoginConstants;
 import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.core.utils.PwdEncoder;
@@ -46,6 +44,11 @@ public class UserService {
         if (userMail == null) {
             throw new EmailNotFoundException();
         }
+        //验证邮箱状态
+        Byte mailType = userMail.getMailType();
+        if (LoginConstants.UserMailState.ACTIVE != mailType) {
+            throw new EmailInActiveException();
+        }
         //验证密码
         String salt = userMail.getSalt();
         logger.debug("数据库中的salt为:{}",salt);
@@ -55,6 +58,7 @@ public class UserService {
             logger.warn("用户邮箱[{}]的密码{}不匹配",mail,rawPassword);
             throw new PasswordWrongException();
         }
+
         return userMail;
     }
 

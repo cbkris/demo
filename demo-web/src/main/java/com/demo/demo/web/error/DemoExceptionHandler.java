@@ -5,9 +5,11 @@ import com.demo.demo.core.exception.ErrorEnum;
 import com.demo.demo.web.config.DemoResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ public class DemoExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(DemoExceptionHandler.class);
 
     @ExceptionHandler(Throwable.class)
+    //@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Object handlerException(HttpServletRequest request, Throwable throwable) {
         logger.debug("请求异常路径{}",request.getRequestURL());
