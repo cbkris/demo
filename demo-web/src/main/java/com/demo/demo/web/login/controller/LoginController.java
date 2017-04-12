@@ -3,9 +3,11 @@ package com.demo.demo.web.login.controller;
 import com.demo.demo.core.exception.EmailParamErrorException;
 import com.demo.demo.core.login.service.UserService;
 import com.demo.demo.web.config.DemoResponse;
+import com.demo.demo.web.login.vo.UserLoginVO;
 import com.demo.demo.web.login.vo.UserRegisterVO;
 import com.demo.demo.web.utils.ConvertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 public class LoginController {
     @Autowired
     UserService userService;
+
 
     /**
      * 注册功能,需要邮箱和密码
@@ -40,8 +43,9 @@ public class LoginController {
     }
 
     @GetMapping(value = "/test")
-    public String test() {
-        return userService.test();
+    public DemoResponse test() {
+        userService.test();
+        return new DemoResponse();
     }
 
 

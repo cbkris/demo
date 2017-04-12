@@ -20,6 +20,12 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
+//    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
+//    private User user;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JoinColumn(name = "role_id",referencedColumnName = "role_id")
+//    private Role role;
     @Basic
     @Column(name = "user_id")
     private Integer userId;

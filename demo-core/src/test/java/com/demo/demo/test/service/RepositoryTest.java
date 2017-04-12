@@ -2,19 +2,19 @@ package com.demo.demo.test.service;
 
 import com.demo.demo.core.daily.service.DailyService;
 import com.demo.demo.core.entity.*;
-import com.demo.demo.core.login.service.LoginService;
+import com.demo.demo.core.login.service.TestService;
 import com.demo.demo.core.repository.daily.DailyReportRepository;
 import com.demo.demo.core.repository.user.PermissionRepository;
 import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.test.BaseTest;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.EntityManagerFactoryUtils;
+import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -26,7 +26,7 @@ public class RepositoryTest extends BaseTest{
     @Autowired
     DailyService service;
     @Autowired
-    LoginService loginService;
+    TestService testService;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -39,7 +39,15 @@ public class RepositoryTest extends BaseTest{
 
     @Test
     public void test10(){
-        System.out.println(reportRepository.findById(1));
+        Sort sort = new Sort(Sort.Direction.DESC,"id","agentId");
+        Pageable pageable = new PageRequest(2,2,sort);
+        Integer pageSize = pageable.getPageSize();
+        Integer pageNo = pageable.getPageNumber();
+        pageable.first();
+        pageable.next();
+        pageable.previousOrFirst();
+        Slice<DailyReport> pageResult = reportRepository.findAll(pageable.first());
+        System.out.println(pageResult.getContent());
     }
 
     @Test
@@ -54,7 +62,7 @@ public class RepositoryTest extends BaseTest{
 
     @Test
     public void test7(){
-        loginService.test2();
+        testService.test2();
     }
 
     @Test

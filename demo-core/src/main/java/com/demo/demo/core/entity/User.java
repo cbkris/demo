@@ -21,6 +21,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Integer userId;
+
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    private Set<UserRole> userRole;
+
     //@Transient
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     //@JoinTable name是中间表的表明

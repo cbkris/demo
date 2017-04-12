@@ -1,10 +1,13 @@
 package com.demo.demo.web.config;
 
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * Created by cb on 2017/4/4.
  */
-//@Configuration
-//@EnableCaching
+@Configuration
+@EnableCaching
 public class DemoCachingConfig {
 //    //配置EhCacheCacheManager
 //    //@Bean

@@ -1,7 +1,10 @@
 package com.demo.demo.web.security;
 
 import com.demo.demo.core.entity.UserMail;
+import com.demo.demo.core.exception.DemoException;
+import com.demo.demo.core.login.service.UserService;
 import com.demo.demo.core.repository.user.UserMailRepository;
+import com.demo.demo.web.login.vo.UserVO;
 import com.demo.demo.web.security.disable.SecurityUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,42 +14,61 @@ import org.springframework.security.authentication.RememberMeAuthenticationToken
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.Set;
+
 /**
  * Created by cb on 2017/4/7.
+ * 通过cookie自动登录的Provider
  */
 @Component
 public class DemoRememberMeAuthenticationProvider implements AuthenticationProvider {
     private static final Logger logger = LoggerFactory.getLogger(DemoRememberMeAuthenticationProvider.class);
     @Autowired
-    UserMailRepository userMailRepository;
+    UserService userService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if (authentication instanceof RememberMeAuthenticationToken){
+        if (authentication instanceof RememberMeAuthenticationToken) {
             logger.debug("通过cookie自动登录");
-            RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) authentication;
-            //获取token值
-            String accessToken = (String) token.getPrincipal();
-            //String token = "111111";
-            if (StringUtils.isEmpty(accessToken)) {
+            try {
+                RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) authentication;
+                //获取token值
+                String accessToken = token.getPrincipal().toString();
+                if (StringUtils.isEmpty(accessToken)) {
+                    return null;
+                }
+                //查询对应用户
+                UserMail userMail = userService.loginByToken(accessToken);
+                //加载权限
+                Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) DemoAuthenticationProvider.getAuthorities(userMail);
+                UserVO vo = new UserVO();
+                vo.setId(userMail.getId());
+                vo.setUserId(userMail.getUserId());
+                vo.setUsername(vo.getUsername());
+                //传递token
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(userMail.getMail(), userMail.getPwd(), authorities);
+                authenticationToken.setDetails(vo);
+                return authenticationToken;
+            } catch (DemoException e) {
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
-            //查询对应用户
-            UserMail userMail = userMailRepository.findByToken(accessToken);
-            if (userMail == null) {
-                throw new UsernameNotFoundException("自动登录失败");
-            }
-            UserDetails userDetails = new SecurityUser(userMail);
+
+            //UserDetails userDetails = new SecurityUser(userMail);
             //检查是账号否有异常状态
-            DemoAuthenticationProvider.checkUser(userDetails);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
-            authenticationToken.setDetails(userDetails);
-            return authenticationToken;
+//            DemoAuthenticationProvider.checkUser(userDetails);
+//            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
+//            authenticationToken.setDetails(userDetails);
+//            return authenticationToken;
         }
         return null;
     }

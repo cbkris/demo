@@ -13,6 +13,7 @@ public enum ErrorEnum {
     EMAIL_NOT_FOUND_EXCEPTION(20003,"用户名不存在"),
     PASSWORD_ERROR_EXCEPTION(20004,"密码异常"),
     PASSWORD_WRONG_EXCEPTION(20005,"密码错误"),
+    TOKEN_INVALID_EXCEPTION(20006,"token无效"),
 
 
     NOT_LOGIN(30001,"未登录"),

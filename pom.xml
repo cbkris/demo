@@ -86,7 +86,7 @@
                 <role>Project Manager</role>
                 <role>Developer</role>
             </roles>
-            <!--项目开发者所在时区， -11到12范围内的整数。中国是东八区+8-->
+            <!--项目开发者所在时区， -11到12范围内的整数-->
             <timezone>+8</timezone>
         </developer>
     </developers>

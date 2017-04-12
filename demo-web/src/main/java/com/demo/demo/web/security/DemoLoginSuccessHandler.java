@@ -41,6 +41,8 @@ public class DemoLoginSuccessHandler extends SavedRequestAwareAuthenticationSucc
         //super.onAuthenticationSuccess(request,response,authentication);
     }
 
+
+
     public static String getIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

@@ -32,6 +32,7 @@ public class DemoExceptionHandler extends ResponseEntityExceptionHandler {
             DemoException exception = (DemoException) throwable;
             return new DemoResponse(exception.getCode(), exception.getMessage());
         }
+        throwable.printStackTrace();
         return new DemoResponse(ErrorEnum.FAILED.code(), throwable.getMessage());
     }
 }

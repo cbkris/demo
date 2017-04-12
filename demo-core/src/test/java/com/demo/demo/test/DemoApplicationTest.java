@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * Created by cb on 2017/3/29.
  */
-@EnableSpringDataWebSupport
+//@EnableSpringDataWebSupport
 @EnableJpaRepositories(basePackages = "com.demo.demo.core",
         queryLookupStrategy = QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND)
 @EntityScan(basePackages = "com.demo.demo.core")

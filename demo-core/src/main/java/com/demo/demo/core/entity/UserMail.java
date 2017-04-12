@@ -1,10 +1,14 @@
 package com.demo.demo.core.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
+import org.springframework.cache.annotation.*;
 
 import javax.persistence.*;
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 
 /**
@@ -14,6 +18,7 @@ import java.sql.Timestamp;
 @DynamicInsert
 @DynamicUpdate
 @Entity
+//@Cacheable(true)
 @Table(name = "user_mail", schema = "titan")
 public class UserMail {
     @Id

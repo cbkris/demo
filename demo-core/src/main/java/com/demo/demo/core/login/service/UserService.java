@@ -5,6 +5,7 @@ import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.core.exception.EmailExistsException;
 import com.demo.demo.core.exception.EmailNotFoundException;
 import com.demo.demo.core.exception.PasswordWrongException;
+import com.demo.demo.core.exception.TokenInvalidException;
 import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.core.utils.PwdEncoder;
@@ -20,7 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-
+    @Autowired
+    MailService mailService;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -39,7 +41,7 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public UserMail loginByMail(String mail,String rawPassword){
-        logger.debug("用户[{}]登录",mail);
+        logger.debug("用户[{}]尝试登录",mail);
         UserMail userMail = userMailRepository.findByMail(mail);
         if (userMail == null) {
             throw new EmailNotFoundException();
@@ -52,6 +54,21 @@ public class UserService {
         if (!password.equals(userMail.getPwd())){
             logger.warn("用户邮箱[{}]的密码{}不匹配",mail,rawPassword);
             throw new PasswordWrongException();
+        }
+        return userMail;
+    }
+
+    /**
+     * 用户使用cookie登录
+     * @param token
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public UserMail loginByToken(String token){
+        logger.debug("使用token登录:[{}]",token);
+        UserMail userMail = userMailRepository.findByToken(token);
+        if (userMail == null){
+            throw new TokenInvalidException();
         }
         return userMail;
     }
@@ -88,8 +105,8 @@ public class UserService {
 
 
 
-    public String test(){
-        return PwdEncoder.genSalt();
+    public void test(){
+        mailService.sendMail("975677342@qq.com","Hello","World");
     }
 
 }

@@ -1,39 +1,44 @@
 package com.demo.demo.core.login.service;
 
-import com.demo.demo.core.entity.User;
-import com.demo.demo.core.entity.UserMail;
-import com.demo.demo.core.entity.UserRole;
-import com.demo.demo.core.entity.User_;
-import com.demo.demo.core.exception.EmailExistsException;
+import com.demo.demo.core.entity.*;
+import com.demo.demo.core.repository.daily.DailyReportRepository;
+import com.demo.demo.core.repository.specification.DemoSpecification;
 import com.demo.demo.core.repository.user.UserMailRepository;
-import com.demo.demo.core.repository.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by cb on 2017/3/29.
  */
 @Service
-public class LoginService {
+public class TestService {
 
     @PersistenceContext
     EntityManager entityManager;
+    @Autowired
+    DailyReportRepository dailyReportRepository;
+    @Autowired
+    UserMailRepository userMailRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestService.class);
 
 
+    public List<UserMail> test4(){
+        return userMailRepository.findAll(DemoSpecification.TEST2);
+    }
+
+    public List<DailyReport> test3(){
+        return dailyReportRepository.findAll(DemoSpecification.TEST1);
+    }
 
     public void test2(){
         //获取cb

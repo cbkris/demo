@@ -131,7 +131,7 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.userDetailsService(userDetailsService)
                     //.passwordEncoder(passwordEncoder)
                 //.and()
-                //.authenticationProvider(rememberMeAuthenticationProvider)
+                .authenticationProvider(rememberMeAuthenticationProvider)
                 .authenticationProvider(authenticationProvider);
         logger.debug("自定义认证启动成功");
 
