@@ -7,11 +7,15 @@ import com.demo.demo.core.login.constant.LoginConstants;
 import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.core.utils.PwdEncoder;
+import com.demo.demo.core.utils.RandomStringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by cb on 2017/4/1.
@@ -25,6 +29,8 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     UserMailRepository userMailRepository;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     public UserMail findByMail(String mail){
         UserMail userMail = userMailRepository.findByMail(mail);
@@ -77,11 +83,11 @@ public class UserService {
         return userMail;
     }
     /**
-     * 邮箱注册用户
+     * 邮箱注册用户,并将激活需要的信息存入redis
      * 先注册一个空的user,把user_name设置成邮箱,拿到user_id,然后再把这个一起存到user_mail
      */
     @Transactional(readOnly = false, rollbackFor = Throwable.class)
-    public void register(UserMail userMail) {
+    public UserMail register(UserMail userMail) {
         //验证邮箱是否存在
         UserMail exists = userMailRepository.findByMail(userMail.getMail());
         if (null != exists) {
@@ -102,7 +108,35 @@ public class UserService {
         userMail.setPwd(password);
         //注册新的用户
         UserMail mail = userMailRepository.save(userMail);
-        logger.debug("注册用户[user_id = {}]的邮箱[id = {}]", user.getUserId(), mail.getId());
+        logger.debug("注册用户[user_id = {}]的邮箱[id = {}]", user.getUserId(),mail.getId());
+        return mail;
     }
 
+    /**
+     * 发送激活邮件
+     * @param mail
+     */
+    public void sendActiveEmail(String mail){
+        //需要激活链接
+        String url = getActiveUrl(mail);
+        logger.debug("生成的激活链接地址:[{}]",url);
+        mailService.sendMail(mail,"邮箱激活!",url);
+    }
+
+
+
+
+    /**
+     * 生成激活邮箱时需要的链接地址,并且将信息存入redis
+     * @param mail
+     * @return
+     */
+    public String getActiveUrl(String mail){
+        String activeCode = RandomStringUtil.getRandString(LoginConstants.SESSION.ACTIVE_CODE_LENGTH);
+        String key = LoginConstants.REDIS.REDIS_ACTIVE_CODE+activeCode;
+        //用redisTemplate保存邮箱激活需要的数据
+        stringRedisTemplate.opsForValue().set(key,mail,LoginConstants.SESSION.ACTIVE_TIMEOUT, TimeUnit.SECONDS);
+        String activeUrl = LoginConstants.SESSION.ACTIVE_URL+activeCode;
+        return activeUrl;
+    }
 }

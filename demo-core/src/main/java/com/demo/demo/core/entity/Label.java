@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Entity
 public class Label {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "label_id")
     private Integer labelId;
     @Basic

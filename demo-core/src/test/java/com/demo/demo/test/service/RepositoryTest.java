@@ -10,7 +10,6 @@ import com.demo.demo.core.repository.user.PermissionRepository;
 import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.core.repository.user.UserRepository;
 import com.demo.demo.test.BaseTest;
-import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -48,7 +47,7 @@ public class RepositoryTest extends BaseTest{
      */
     @Test
     public void test11(){
-        mailService.sendTest("975677342@qq.com","Hello","World");
+        mailService.sendMail("975677342@qq.com","Hello","World");
     }
 
 

@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Table(name = "user_label", schema = "titan")
 public class UserLabel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Basic

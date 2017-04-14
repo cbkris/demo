@@ -16,6 +16,7 @@ public enum ErrorEnum {
     PASSWORD_WRONG_EXCEPTION(20005,"密码错误"),
     TOKEN_INVALID_EXCEPTION(20006,"token无效"),
     EMAIL_INACTIVE_EXCEPTION(20007,"邮箱未激活"),
+    EMAIL_SENT_EXCEPTION(20008,"邮件激活发送未成功"),
 
 
     NOT_LOGIN(30001,"未登录"),

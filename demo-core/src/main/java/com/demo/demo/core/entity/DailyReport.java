@@ -19,7 +19,7 @@ import java.util.Date;
 @Table(name = "daily_report")
 public class DailyReport {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Integer id;
     @Column(name = "operator")

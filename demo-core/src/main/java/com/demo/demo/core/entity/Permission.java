@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Entity
 public class Permission {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "permission_id")
     private Integer permissionId;
     @Basic

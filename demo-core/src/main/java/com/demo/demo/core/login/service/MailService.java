@@ -23,14 +23,18 @@ public class MailService {
     @Autowired
     MailSender mailSender;
 
-
-    public void sendTest(String to,String subject,String text){
+    /**
+     * 发送一个简单的邮件
+     * @param to
+     * @param subject
+     * @param text
+     */
+    public void sendMail(String to, String subject, String text){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(sendFrom);
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);
         mailMessage.setText(text);
-
         mailSender.send(mailMessage);
         logger.info("邮件发送完成,目标:[{}]",to);
     }

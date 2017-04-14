@@ -62,7 +62,7 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
         //自定义响应头
         //http.headers().defaultsDisabled();
         http.authorizeRequests()
-                .antMatchers("/css/**", "/index", "/login", "/").permitAll()
+                .antMatchers("/css/**", "/index", "/login", "/","/register").permitAll()
                 .antMatchers("/user/**").hasRole("admin")
                 .anyRequest()
                 //.permitAll();//暂时允许所有request

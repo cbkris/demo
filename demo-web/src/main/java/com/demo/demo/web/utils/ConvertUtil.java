@@ -21,7 +21,7 @@ public class ConvertUtil {
      * @param vo
      * @return
      */
-    public static UserMail registerVO_UserToMail(UserRegisterVO vo) {
+    public static UserMail registerVO_UserMail(UserRegisterVO vo) {
         UserMail userMail = new UserMail();
         copyNotNull(vo, userMail);
         return userMail;

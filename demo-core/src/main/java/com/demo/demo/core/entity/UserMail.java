@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 @Table(name = "user_mail", schema = "titan")
 public class UserMail {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
