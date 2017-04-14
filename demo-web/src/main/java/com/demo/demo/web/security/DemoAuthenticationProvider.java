@@ -3,10 +3,8 @@ package com.demo.demo.web.security;
 import com.demo.demo.core.entity.Permission;
 import com.demo.demo.core.entity.Role;
 import com.demo.demo.core.entity.UserMail;
-import com.demo.demo.core.exception.DemoException;
 import com.demo.demo.core.login.service.UserService;
 import com.demo.demo.web.login.vo.UserVO;
-import com.demo.demo.web.security.disable.SecurityUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -38,16 +35,16 @@ public class DemoAuthenticationProvider implements AuthenticationProvider {
         //接收到的应该是由SecurityContextPersistenceFilter捕获的一个token,用来提供认证的凭证,可能有多种
         if (authentication instanceof UsernamePasswordAuthenticationToken) {
             logger.debug("通过用户名密码登录");
-            try {
-                //用来处理用户名密码登录
-                UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-                String mail = token.getPrincipal().toString();
-                String password = token.getCredentials().toString();
-                //调用自己的service
-                UserMail userMail = userService.loginByMail(mail, password);
-                //加载权限
-                Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) getAuthorities(userMail);
-                logger.debug("加载所有权限[{}]", authorities);
+            //try {
+            //用来处理用户名密码登录
+            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+            String mail = token.getPrincipal().toString();
+            String password = token.getCredentials().toString();
+            //调用自己的service
+            UserMail userMail = userService.loginByMail(mail, password);
+            //加载权限
+            Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) getAuthorities(userMail);
+            logger.debug("加载所有权限[{}]", authorities);
 
 //                UserDetails userDetails = new User(mail,password,authorities);
 
@@ -55,23 +52,23 @@ public class DemoAuthenticationProvider implements AuthenticationProvider {
 //              UserDetails userDetails = userDetailsService.loadUserByUsername(mail);
 //              checkUser(userDetails);
 
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                authentication.getPrincipal(), authentication.getCredentials(), authorities);
-                //把vo对象放进details里
-                UserVO vo = new UserVO();
-                vo.setId(userMail.getId());
-                vo.setUserId(userMail.getUserId());
-                vo.setUsername(userMail.getUser().getUserName());
-                authToken.setDetails(vo);
-                //authToken.setDetails(userDetails);
-                return authToken;
-            } catch (DemoException e) {
-                return null;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                            authentication.getPrincipal(), authentication.getCredentials(), authorities);
+            //把vo对象放进details里
+            UserVO vo = new UserVO();
+            vo.setId(userMail.getId());
+            vo.setUserId(userMail.getUserId());
+            vo.setUsername(userMail.getUser().getUserName());
+            authToken.setDetails(vo);
+            //authToken.setDetails(userDetails);
+            return authToken;
+//            } catch (DemoException e) {
+//                return null;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
 
         }
         return null;

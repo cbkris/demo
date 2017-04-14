@@ -1,20 +1,17 @@
 package com.demo.demo.web.config;
 
 import com.demo.demo.web.security.*;
-import com.demo.demo.web.security.disable.DemoPasswordEncoder;
+import com.demo.demo.web.security.disable.DemoAuthenticationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.security.Principal;
 
 /**
  * Created by cb on 2017/3/29.
@@ -71,19 +68,19 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 //.permitAll();//暂时允许所有request
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login-error")
-                .successHandler(loginSuccessHandler)
+//                .and()
+//                .formLogin()
+//                .loginPage("/login").usernameParameter("mail").passwordParameter("pwd")
+//                //.failureUrl("/login-error")
+//                .successHandler(loginSuccessHandler)
                 //.successForwardUrl("/user/index")
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                //.logoutSuccessUrl("/index")
-                .invalidateHttpSession(true)
-                //.deleteCookies()
-                .logoutSuccessHandler(logoutSuccessHandler)
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                //.logoutSuccessUrl("/index")
+//                .invalidateHttpSession(true)
+//                //.deleteCookies()
+//                .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .rememberMe()
                 .rememberMeServices(rememberMeService)
@@ -92,6 +89,7 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .maximumSessions(1).expiredUrl("/login?error=expired");
+
     }
 
 //    @Bean
@@ -112,7 +110,7 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         logger.debug("开始配置忽略的路径");
-        web.ignoring().antMatchers("/js/**", "/css/**", "/index","/test","/register");
+        web.ignoring().antMatchers("/js/**", "/css/**");
         //super.configure(web);
     }
 

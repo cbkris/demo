@@ -10,26 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class BaseController {
-    @RequestMapping("/")
+    @GetMapping("/")
     public String root() {
         return "redirect:/index";
     }
 
-    @RequestMapping("/index")
+    @GetMapping("/index")
     public String index() {
         return "index";
     }
 
-    @RequestMapping("/user/index")
+    @GetMapping("/user/index")
     public String userIndex() {
         return "user/index";
     }
 
-    @RequestMapping("/login")
+    @GetMapping(value = "/login")
     public String login() {
         return "login";
     }
-
 
     @RequestMapping("/login-error")
     public String loginError(Model model) {

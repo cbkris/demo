@@ -1,11 +1,8 @@
 package com.demo.demo.web.security;
 
 import com.demo.demo.core.entity.UserMail;
-import com.demo.demo.core.exception.DemoException;
 import com.demo.demo.core.login.service.UserService;
-import com.demo.demo.core.repository.user.UserMailRepository;
 import com.demo.demo.web.login.vo.UserVO;
-import com.demo.demo.web.security.disable.SecurityUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -36,7 +31,7 @@ public class DemoRememberMeAuthenticationProvider implements AuthenticationProvi
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         if (authentication instanceof RememberMeAuthenticationToken) {
             logger.debug("通过cookie自动登录");
-            try {
+            //try {
                 RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) authentication;
                 //获取token值
                 String accessToken = token.getPrincipal().toString();
@@ -56,12 +51,12 @@ public class DemoRememberMeAuthenticationProvider implements AuthenticationProvi
                         new UsernamePasswordAuthenticationToken(userMail.getMail(), userMail.getPwd(), authorities);
                 authenticationToken.setDetails(vo);
                 return authenticationToken;
-            } catch (DemoException e) {
-                return null;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
+//            } catch (DemoException e) {
+//                return null;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
 
             //UserDetails userDetails = new SecurityUser(userMail);
             //检查是账号否有异常状态

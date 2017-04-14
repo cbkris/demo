@@ -36,7 +36,7 @@ public class DemoLoginSuccessHandler extends SavedRequestAwareAuthenticationSucc
 
         logger.info("用户:[{}]已登录,IP地址:{}", authentication.getPrincipal(), getIp(request));
         //重定向到另一个页面
-        redirectStrategy.sendRedirect(request, response, "/user/index");
+        redirectStrategy.sendRedirect(request, response, request.getPathInfo());
         //response.sendRedirect("/user/index");
         //super.onAuthenticationSuccess(request,response,authentication);
     }

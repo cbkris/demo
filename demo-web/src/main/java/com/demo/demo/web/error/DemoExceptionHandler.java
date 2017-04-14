@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by cb on 2017/3/23.
+ * 处理标有@RequestMapping方法的异常
  * 统一异常处理
  */
 @ControllerAdvice
 public class DemoExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(DemoExceptionHandler.class);
+
 
     @ExceptionHandler(Throwable.class)
     //@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

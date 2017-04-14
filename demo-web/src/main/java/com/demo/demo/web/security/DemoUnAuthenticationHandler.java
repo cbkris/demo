@@ -25,9 +25,12 @@ public class DemoUnAuthenticationHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        //这个是返回错误信息
         response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=utf8");
         response.getOutputStream().write(objectMapper.writeValueAsBytes(
                 new DemoResponse(ErrorEnum.NOT_LOGIN.code(), ErrorEnum.NOT_LOGIN.message())
         ));
+        //重定向到登录页
+        //response.sendRedirect("/login");
     }
 }

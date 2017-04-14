@@ -1,6 +1,7 @@
 package com.demo.demo.web;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.AdviceMode;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -21,7 +23,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication(scanBasePackages = {"com.demo.demo"},
         exclude = {
                 SessionAutoConfiguration.class,
-                DataSourceAutoConfiguration.class
+                DataSourceAutoConfiguration.class,
+                ManagementWebSecurityAutoConfiguration.class,
         })
 public class DemoApplication {
     public static void main(String[] args) {
