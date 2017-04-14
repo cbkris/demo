@@ -1,21 +1,16 @@
 package com.demo.demo.web.config;
 
 import com.demo.demo.web.security.*;
-import com.demo.demo.web.security.disable.DemoAuthenticationManager;
+import com.demo.demo.web.security.DemoLoginSuccessHandler;
+import com.demo.demo.web.security.DemoLogoutSuccessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import java.util.Arrays;
 
 /**
  * Created by cb on 2017/3/29.
@@ -31,8 +26,8 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
     DemoLoginSuccessHandler loginSuccessHandler;
     @Autowired
     DemoLogoutSuccessHandler logoutSuccessHandler;
-//    @Autowired
-//    DemoUserDetailsService userDetailsService;
+//    //    @Autowired
+////    DemoUserDetailsService userDetailsService;
     @Autowired
     DemoRememberMeService rememberMeService;
     @Autowired
@@ -70,29 +65,38 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/index", "/login", "/").permitAll()
                 .antMatchers("/user/**").hasRole("admin")
                 .anyRequest()
-                .authenticated()
                 //.permitAll();//暂时允许所有request
+                .authenticated()
+                .and()
+                .rememberMe()
+                    .rememberMeServices(rememberMeService)
+                    .authenticationSuccessHandler(loginSuccessHandler)
+//                .formLogin().successHandler(loginSuccessHandler)
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                //.logoutSuccessUrl("/index")
+                //.invalidateHttpSession(true)
+                //.deleteCookies()
+                .logoutSuccessHandler(logoutSuccessHandler);
+//                .and()
+//                .rememberMe()
+//                .rememberMeServices(rememberMeService)
+//                .authenticationSuccessHandler(loginSuccessHandler)
+//                //.alwaysRemember(true)
+//                .and()
+//                .sessionManagement()
+//                .maximumSessions(1).expiredUrl("/login?error=expired");
+
 //                .and()
 //                .formLogin()
 //                .loginPage("/login").usernameParameter("mail").passwordParameter("pwd")
 //                //.failureUrl("/login-error")
 //                .successHandler(loginSuccessHandler)
-                //.successForwardUrl("/user/index")
+        //.successForwardUrl("/user/index")
 //                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                //.logoutSuccessUrl("/index")
-//                .invalidateHttpSession(true)
-//                //.deleteCookies()
-//                .logoutSuccessHandler(logoutSuccessHandler)
-                .and()
-                .rememberMe()
-                .rememberMeServices(rememberMeService)
-                .authenticationSuccessHandler(loginSuccessHandler)
-                //.alwaysRemember(true)
-                .and()
-                .sessionManagement()
-                .maximumSessions(1).expiredUrl("/login?error=expired");
+//
+
 
     }
 
@@ -129,12 +133,12 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        //按顺序添加provider,他会加入到manager的provider中
 //        logger.debug("开始配置AuthenticationManagerBuilder");
-//        auth.eraseCredentials(true)
-//                //.userDetailsService(userDetailsService)
-//                    //.passwordEncoder(passwordEncoder)
-//                //.and()
-//                .authenticationProvider(new DemoRememberMeAuthenticationProvider())
-//                .authenticationProvider(authenticationProvider);
+//        auth.eraseCredentials(true);
+//        //.userDetailsService(userDetailsService)
+//        //.passwordEncoder(passwordEncoder)
+//        //.and()
+////                .authenticationProvider(new DemoRememberMeAuthenticationProvider())
+////                .authenticationProvider(authenticationProvider);
 //        logger.debug("自定义认证启动成功");
 //
 //        //super.configure(auth);

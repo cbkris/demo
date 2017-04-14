@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * Created by cb on 2017/4/1.
  * 自定义
- * 访问拒绝Handler
+ * 访问拒绝,权限不足Handler
  */
 @Component
 public class DemoAccessDeniedHandler implements AccessDeniedHandler {

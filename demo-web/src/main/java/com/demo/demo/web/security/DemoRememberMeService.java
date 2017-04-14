@@ -6,6 +6,7 @@ import com.demo.demo.core.utils.PwdEncoder;
 import com.demo.demo.core.utils.RandomStringUtil;
 import com.demo.demo.web.constant.Constants;
 import com.demo.demo.web.login.vo.UserVO;
+import com.demo.demo.web.utils.IPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +113,7 @@ public class DemoRememberMeService implements RememberMeServices {
         Cookie cookie = new Cookie(Constants.Cookie.REMEMBER_ME, token);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(Constants.Cookie.TOKEN_TIME);
+        logger.info("用户:[{}]已登录,IP地址:{}", successfulAuthentication.getPrincipal(), IPUtil.getIp(request));
         response.addCookie(cookie);
     }
 }

@@ -23,6 +23,7 @@ import java.util.Set;
 /**
  * Created by cb on 2017/4/1.
  * 认证的具体实现,查询数据库,配置权限
+ * 需要将所有的实现放在同一个provider中,否则security无法正常启动,会加载其默认的配置
  */
 @Component
 public class DemoAuthenticationProvider implements AuthenticationProvider {
@@ -30,7 +31,6 @@ public class DemoAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     UserService userService;
-
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

@@ -16,12 +16,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -35,10 +37,15 @@ public class LoginController {
     UserService userService;
     @Autowired
     AuthenticationManager authenticationManager;
+    @Autowired
+    RememberMeServices rememberMeServices;
 
 
     @PostMapping(value = "/login")
-    public void login(@Valid UserLoginVO vo, BindingResult br, HttpServletResponse response) throws IOException {
+    public void login(@Valid UserLoginVO vo,
+                      BindingResult br,
+                      HttpServletRequest request,
+                      HttpServletResponse response) throws IOException {
         if (br.hasErrors()) {
             throw new EmailParamErrorException();
         }
@@ -49,8 +56,9 @@ public class LoginController {
                 new UsernamePasswordAuthenticationToken(vo.getMail(), vo.getPwd(), null);
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        response.sendRedirect("/user/index");
+        rememberMeServices.loginSuccess(request, response, authentication);
     }
+
 
     /**
      * 注册功能,需要邮箱和密码
