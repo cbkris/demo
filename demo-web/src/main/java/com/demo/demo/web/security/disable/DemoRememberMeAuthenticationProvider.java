@@ -1,27 +1,19 @@
-package com.demo.demo.web.security;
+package com.demo.demo.web.security.disable;
 
-import com.demo.demo.core.entity.UserMail;
 import com.demo.demo.core.login.service.UserService;
-import com.demo.demo.web.login.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import java.util.Set;
 
 /**
  * Created by cb on 2017/4/7.
  * 通过cookie自动登录的Provider
  */
-@Component
+//@Component
 public class DemoRememberMeAuthenticationProvider implements AuthenticationProvider {
     private static final Logger logger = LoggerFactory.getLogger(DemoRememberMeAuthenticationProvider.class);
     @Autowired
@@ -29,28 +21,28 @@ public class DemoRememberMeAuthenticationProvider implements AuthenticationProvi
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if (authentication instanceof RememberMeAuthenticationToken) {
-            logger.debug("通过cookie自动登录");
-            //try {
-                RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) authentication;
-                //获取token值
-                String accessToken = token.getPrincipal().toString();
-                if (StringUtils.isEmpty(accessToken)) {
-                    return null;
-                }
-                //查询对应用户
-                UserMail userMail = userService.loginByToken(accessToken);
-                //加载权限
-                Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) DemoAuthenticationProvider.getAuthorities(userMail);
-                UserVO vo = new UserVO();
-                vo.setId(userMail.getId());
-                vo.setUserId(userMail.getUserId());
-                vo.setUsername(vo.getUsername());
-                //传递token
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userMail.getMail(), userMail.getPwd(), authorities);
-                authenticationToken.setDetails(vo);
-                return authenticationToken;
+//        if (authentication instanceof RememberMeAuthenticationToken) {
+//            logger.debug("通过cookie自动登录");
+//            //try {
+//                RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) authentication;
+//                //获取token值
+//                String accessToken = token.getPrincipal().toString();
+//                if (StringUtils.isEmpty(accessToken)) {
+//                    return null;
+//                }
+//                //查询对应用户
+//                UserMail userMail = userService.loginByToken(accessToken);
+//                //加载权限
+//                Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) DemoAuthenticationProvider.getAuthorities(userMail);
+//                UserVO vo = new UserVO();
+//                vo.setId(userMail.getId());
+//                vo.setUserId(userMail.getUserId());
+//                vo.setUsername(vo.getUsername());
+//                //传递token
+//                UsernamePasswordAuthenticationToken authenticationToken =
+//                        new UsernamePasswordAuthenticationToken(userMail.getMail(), userMail.getPwd(), authorities);
+//                authenticationToken.setDetails(vo);
+//                return authenticationToken;
 //            } catch (DemoException e) {
 //                return null;
 //            } catch (Exception e) {
@@ -64,7 +56,7 @@ public class DemoRememberMeAuthenticationProvider implements AuthenticationProvi
 //            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
 //            authenticationToken.setDetails(userDetails);
 //            return authenticationToken;
-        }
+//        }
         return null;
     }
 

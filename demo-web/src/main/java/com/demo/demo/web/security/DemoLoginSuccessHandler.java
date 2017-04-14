@@ -22,7 +22,7 @@ import java.net.InetAddress;
  * 登录成功处理,拿到具有权限的authentication,将这个放入SecurityContext中,并显示登录信息
  */
 @Component
-public class DemoLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class DemoLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler{
     private static final Logger logger = LoggerFactory.getLogger(DemoLoginSuccessHandler.class);
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 

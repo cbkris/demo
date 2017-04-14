@@ -9,6 +9,7 @@ import com.demo.demo.web.login.vo.UserLoginVO;
 import com.demo.demo.web.login.vo.UserRegisterVO;
 import com.demo.demo.web.login.vo.UserVO;
 import com.demo.demo.web.utils.ConvertUtil;
+import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 
 /**
  * Created by cb on 2017/3/30.
@@ -35,17 +38,18 @@ public class LoginController {
 
 
     @PostMapping(value = "/login")
-    public void login(@Valid UserLoginVO vo, BindingResult br) {
+    public void login(@Valid UserLoginVO vo, BindingResult br, HttpServletResponse response) throws IOException {
         if (br.hasErrors()) {
             throw new EmailParamErrorException();
         }
-        //已经被匿名认证过了
-        SecurityContextHolder.clearContext();
+//        //已经被匿名认证过了
+//        SecurityContextHolder.clearContext();
         //手动添加所需要的认证信息
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(vo.getMail(), vo.getPwd(), null);
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        response.sendRedirect("/user/index");
     }
 
     /**

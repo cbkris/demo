@@ -23,8 +23,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication(scanBasePackages = {"com.demo.demo"},
         exclude = {
                 SessionAutoConfiguration.class,
-                DataSourceAutoConfiguration.class,
-                ManagementWebSecurityAutoConfiguration.class,
+                DataSourceAutoConfiguration.class
+                //ManagementWebSecurityAutoConfiguration.class
         })
 public class DemoApplication {
     public static void main(String[] args) {

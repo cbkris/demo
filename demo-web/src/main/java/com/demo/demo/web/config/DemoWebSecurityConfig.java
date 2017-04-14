@@ -5,13 +5,17 @@ import com.demo.demo.web.security.disable.DemoAuthenticationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import java.util.Arrays;
 
 /**
  * Created by cb on 2017/3/29.
@@ -33,10 +37,10 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
     DemoRememberMeService rememberMeService;
     @Autowired
     DemoUnAuthenticationHandler unAuthenticationHandler;
-    @Autowired
-    DemoAuthenticationProvider authenticationProvider;
-    @Autowired
-    DemoRememberMeAuthenticationProvider rememberMeAuthenticationProvider;
+//    @Autowired
+//    DemoAuthenticationProvider authenticationProvider;
+//    @Autowired
+//    DemoRememberMeAuthenticationProvider rememberMeAuthenticationProvider;
 //    @Autowired
 //    DemoPasswordEncoder passwordEncoder;
 
@@ -121,18 +125,29 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
      * @param auth
      * @throws Exception
      */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //按顺序添加provider,他会加入到manager的provider中
-        logger.debug("开始配置AuthenticationManagerBuilder");
-        auth.eraseCredentials(true)
-                //.userDetailsService(userDetailsService)
-                    //.passwordEncoder(passwordEncoder)
-                //.and()
-                .authenticationProvider(rememberMeAuthenticationProvider)
-                .authenticationProvider(authenticationProvider);
-        logger.debug("自定义认证启动成功");
-
-        //super.configure(auth);
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        //按顺序添加provider,他会加入到manager的provider中
+//        logger.debug("开始配置AuthenticationManagerBuilder");
+//        auth.eraseCredentials(true)
+//                //.userDetailsService(userDetailsService)
+//                    //.passwordEncoder(passwordEncoder)
+//                //.and()
+//                .authenticationProvider(new DemoRememberMeAuthenticationProvider())
+//                .authenticationProvider(authenticationProvider);
+//        logger.debug("自定义认证启动成功");
+//
+//        //super.configure(auth);
+//    }
+//    @Override
+//    protected AuthenticationManager authenticationManager() throws Exception {
+//        return myAuthenticationManager();
+//        //return super.authenticationManager();
+//    }
+//
+//    @Bean
+//    AuthenticationManager myAuthenticationManager(){
+//        return new ProviderManager(
+//                Arrays.asList(new DemoRememberMeAuthenticationProvider(), new DemoAuthenticationProvider()));
+//    }
 }

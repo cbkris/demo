@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,8 +31,32 @@ public class DemoAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     UserService userService;
 
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        if (authentication instanceof RememberMeAuthenticationToken) {
+            logger.debug("通过cookie自动登录");
+            //try {
+            RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) authentication;
+            //获取token值
+            String accessToken = token.getPrincipal().toString();
+            if (StringUtils.isEmpty(accessToken)) {
+                return null;
+            }
+            //查询对应用户
+            UserMail userMail = userService.loginByToken(accessToken);
+            //加载权限
+            Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) getAuthorities(userMail);
+            UserVO vo = new UserVO();
+            vo.setId(userMail.getId());
+            vo.setUserId(userMail.getUserId());
+            vo.setUsername(vo.getUsername());
+            //传递token
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(userMail.getMail(), userMail.getPwd(), authorities);
+            authenticationToken.setDetails(vo);
+            return authenticationToken;
+        }
         //接收到的应该是由SecurityContextPersistenceFilter捕获的一个token,用来提供认证的凭证,可能有多种
         if (authentication instanceof UsernamePasswordAuthenticationToken) {
             logger.debug("通过用户名密码登录");
@@ -63,6 +88,7 @@ public class DemoAuthenticationProvider implements AuthenticationProvider {
             authToken.setDetails(vo);
             //authToken.setDetails(userDetails);
             return authToken;
+
 //            } catch (DemoException e) {
 //                return null;
 //            } catch (Exception e) {
@@ -76,7 +102,8 @@ public class DemoAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return UsernamePasswordAuthenticationToken.class.equals(authentication);
+        return UsernamePasswordAuthenticationToken.class.equals(authentication)
+                || RememberMeAuthenticationToken.class.equals(authentication);
     }
 
     public static Set<? extends GrantedAuthority> getAuthorities(UserMail userMail) {
@@ -95,24 +122,24 @@ public class DemoAuthenticationProvider implements AuthenticationProvider {
         return authorities;
     }
 
-    /**
-     * 检查账号是否异常
-     *
-     * @param userDetails
-     */
-    public static void checkUser(UserDetails userDetails) {
-        if (!userDetails.isEnabled()) {
-            throw new DisabledException("账号被禁用");
-        }
-        if (!userDetails.isAccountNonExpired()) {
-            throw new AccountExpiredException("账号已过期");
-        }
-        if (!userDetails.isAccountNonLocked()) {
-            throw new LockedException("账号被锁定");
-        }
-        if (!userDetails.isCredentialsNonExpired()) {
-            throw new BadCredentialsException("凭证已过期");
-        }
-    }
+//    /**
+//     * 检查账号是否异常
+//     *
+//     * @param userDetails
+//     */
+//    public static void checkUser(UserDetails userDetails) {
+//        if (!userDetails.isEnabled()) {
+//            throw new DisabledException("账号被禁用");
+//        }
+//        if (!userDetails.isAccountNonExpired()) {
+//            throw new AccountExpiredException("账号已过期");
+//        }
+//        if (!userDetails.isAccountNonLocked()) {
+//            throw new LockedException("账号被锁定");
+//        }
+//        if (!userDetails.isCredentialsNonExpired()) {
+//            throw new BadCredentialsException("凭证已过期");
+//        }
+//    }
 
 }
